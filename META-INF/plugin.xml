@@ -1,15 +1,16 @@
 <idea-plugin version="2">
   <id>org.avaje.ebean.enhancer</id>
-  <name>EbeanORM Enhancer</name>
-  <version>4.5.3</version>
+  <name>Ebean ORM Enhancer</name>
+  <version>4.6.1</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave</vendor>
   <depends>com.intellij.modules.java</depends>
 
   <description><![CDATA[
-      Post-compile EbeanORM enhancement
+      Post-compile Ebean ORM enhancement
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>4.6.1</b> IDEA 13+ avaje-ebeanorm-agent version 4.6.1<br>
       <b>4.5.3</b> IDEA 13+ avaje-ebeanorm-agent version 4.5.3<br>
     ]]>
   </change-notes>
@@ -36,8 +37,8 @@
 
   <actions>
     <action class="org.avaje.idea.ebean.plugin.ToggleEbeanAction"
-            text="EbeanORM Enhancement"
-            description="EbeanORM enhancement - http://ebean-orm.github.io/"
+            text="Ebean ORM Enhancement"
+            description="Ebean ORM enhancement - http://ebean-orm.github.io/"
             id="org.avaje.idea.ebean.plugin.ToggleEbeanAction">
       <add-to-group anchor="after" group-id="BuildMenu" relative-to-action="Compile"/>
       <add-to-group anchor="after" group-id="ProjectViewPopupMenu" relative-to-action="Compile"/>
