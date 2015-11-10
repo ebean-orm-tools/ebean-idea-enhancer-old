@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>org.avaje.ebean.enhancer</id>
   <name>Ebean ORM Enhancer</name>
-  <version>4.7.1</version>
+  <version>4.7.1.10</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave</vendor>
   <depends>com.intellij.modules.java</depends>
 
