@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>org.avaje.ebean.enhancer</id>
   <name>Ebean ORM Enhancer</name>
-  <version>4.7.1.10</version>
+  <version>4.8.1</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave</vendor>
   <depends>com.intellij.modules.java</depends>
 
@@ -10,9 +10,10 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      <b>4.7.1</b> IDEA 13+ avaje-ebeanorm-agent version 4.7.1<br>
-      <b>4.6.1</b> IDEA 13+ avaje-ebeanorm-agent version 4.6.1<br>
-      <b>4.5.3</b> IDEA 13+ avaje-ebeanorm-agent version 4.5.3<br>
+      <b>4.8.1</b> Version 4.8.1 agent and supports using ebean.mf<br>
+      <b>4.7.1</b> Version 4.7.1 agent<br>
+      <b>4.6.1</b> Version 4.6.1 agent<br>
+      <b>4.5.3</b> Version 4.5.3 agent<br>
     ]]>
   </change-notes>
 

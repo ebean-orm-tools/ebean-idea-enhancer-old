@@ -20,6 +20,7 @@
 package org.avaje.idea.ebean.plugin;
 
 import com.avaje.ebean.enhance.agent.InputStreamTransform;
+import com.avaje.ebean.enhance.agent.MessageOutput;
 import com.avaje.ebean.enhance.agent.Transformer;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
@@ -28,10 +29,8 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ActionRunner;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.instrument.IllegalClassFormatException;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -72,14 +71,9 @@ public class EbeanEnhancementTask {
         compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement started ...", null, -1, -1);
 
         final IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
-        final Transformer transformer = new Transformer(classBytesReader, "detect=true;debug=" + DEBUG);
+        final Transformer transformer = new Transformer(classBytesReader, "detect=true;debug=" + DEBUG, null, null);
 
-        transformer.setLogout(new PrintStream(new ByteArrayOutputStream()) {
-            @Override
-            public void print(String message) {
-                compileContext.addMessage(CompilerMessageCategory.INFORMATION, message, null, -1, -1);
-            }
-
+        transformer.setLogout(new MessageOutput() {
             @Override
             public void println(String message) {
                 compileContext.addMessage(CompilerMessageCategory.INFORMATION, message, null, -1, -1);
