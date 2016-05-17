@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>org.avaje.ebean.enhancer</id>
   <name>Ebean ORM Enhancer</name>
-  <version>4.9.2</version>
+  <version>4.10.1</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave</vendor>
   <depends>com.intellij.modules.java</depends>
 
@@ -10,6 +10,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>4.10.1</b> Version 4.10.1 agent (fixes for #30 and #31)<br>
       <b>4.9.2</b> Version 4.9.2 agent (fixes for #22 and #28)<br>
       <b>4.8.1</b> Version 4.8.1 agent and supports using ebean.mf<br>
       <b>4.7.1</b> Version 4.7.1 agent<br>
