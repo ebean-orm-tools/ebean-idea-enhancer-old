@@ -19,6 +19,8 @@
 
 package org.avaje.idea.ebean.plugin;
 
+import static com.avaje.ebean.enhance.agent.InputStreamTransform.readBytes;
+
 import com.avaje.ebean.enhance.agent.InputStreamTransform;
 import com.avaje.ebean.enhance.agent.MessageOutput;
 import com.avaje.ebean.enhance.agent.Transformer;
@@ -30,8 +32,11 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ActionRunner;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.instrument.IllegalClassFormatException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -67,6 +72,33 @@ public class EbeanEnhancementTask {
         }
     }
 
+    private class DeliverenceBanjoClassLoader extends URLClassLoader {
+
+
+        public DeliverenceBanjoClassLoader(final ClassLoader parent) {
+            super(new URL[0], parent);
+        }
+
+        @Override
+        public Class<?> loadClass(final String name) throws ClassNotFoundException {
+
+            Class<?> clazz;
+            File f = compiledClasses.get(name);
+            if (f != null) {
+                try (FileInputStream fis = new FileInputStream(f)) {
+                    byte[] x = readBytes(fis);
+                    clazz = defineClass(name, x, 0, x.length);
+                } catch (IOException e) {
+                    compileContext.addMessage(CompilerMessageCategory.ERROR, "Couldn't read file " + f, null, -1, -1);
+                    clazz = super.loadClass(name);
+                }
+            } else {
+                clazz = super.loadClass(name);
+            }
+            return clazz;
+        }
+    }
+
     private void doProcess() throws IOException, IllegalClassFormatException {
         compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement started ...", null, -1, -1);
 
@@ -84,7 +116,7 @@ public class EbeanEnhancementTask {
         progressIndicator.setIndeterminate(true);
         progressIndicator.setText("Ebean enhancement");
 
-        final InputStreamTransform isTransform = new InputStreamTransform(transformer, this.getClass().getClassLoader());
+        final InputStreamTransform isTransform = new InputStreamTransform(transformer, new DeliverenceBanjoClassLoader(getClass().getClassLoader()));
 
         for (Entry<String, File> entry : compiledClasses.entrySet()) {
             final String className = entry.getKey();
