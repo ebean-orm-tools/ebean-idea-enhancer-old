@@ -19,8 +19,6 @@
 
 package org.avaje.idea.ebean.plugin;
 
-import static com.avaje.ebean.enhance.agent.InputStreamTransform.readBytes;
-
 import com.avaje.ebean.enhance.agent.InputStreamTransform;
 import com.avaje.ebean.enhance.agent.MessageOutput;
 import com.avaje.ebean.enhance.agent.Transformer;
@@ -40,6 +38,8 @@ import java.net.URLClassLoader;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static com.avaje.ebean.enhance.agent.InputStreamTransform.readBytes;
+
 /**
  * This task actually hand all successfully compiled classes over to the Ebean weaver.
  *
@@ -47,90 +47,94 @@ import java.util.Map.Entry;
  * @author yevgenyk - Updated 28/04/2014 for IDEA 13
  */
 public class EbeanEnhancementTask {
-    private static final int DEBUG = 1;
 
-    private final CompileContext compileContext;
-    private final Map<String, File> compiledClasses;
+  private static final int DEBUG = 1;
 
-    public EbeanEnhancementTask(CompileContext compileContext, Map<String, File> compiledClasses) {
-        this.compileContext = compileContext;
-        this.compiledClasses = compiledClasses;
-    }
+  private final CompileContext compileContext;
 
-    public void process() {
-        try {
-            ActionRunner.runInsideWriteAction(
-                new ActionRunner.InterruptibleRunnable() {
-                    @Override
-                    public void run() throws Exception {
-                        doProcess();
-                    }
-                }
-            );
-        } catch (Exception e) {
-            compileContext.addMessage(CompilerMessageCategory.ERROR, e.getClass().getName() + ":" + e.getMessage(), null, -1, -1);
-        }
-    }
+  private final Map<String, File> compiledClasses;
 
-    private class DeliverenceBanjoClassLoader extends URLClassLoader {
+  public EbeanEnhancementTask(CompileContext compileContext, Map<String, File> compiledClasses) {
+    this.compileContext = compileContext;
+    this.compiledClasses = compiledClasses;
+  }
 
-
-        public DeliverenceBanjoClassLoader(final ClassLoader parent) {
-            super(new URL[0], parent);
-        }
-
-        @Override
-        public Class<?> loadClass(final String name) throws ClassNotFoundException {
-
-            Class<?> clazz;
-            File f = compiledClasses.get(name);
-            if (f != null) {
-                try (FileInputStream fis = new FileInputStream(f)) {
-                    byte[] x = readBytes(fis);
-                    clazz = defineClass(name, x, 0, x.length);
-                } catch (IOException e) {
-                    compileContext.addMessage(CompilerMessageCategory.ERROR, "Couldn't read file " + f, null, -1, -1);
-                    clazz = super.loadClass(name);
-                }
-            } else {
-                clazz = super.loadClass(name);
-            }
-            return clazz;
-        }
-    }
-
-    private void doProcess() throws IOException, IllegalClassFormatException {
-        compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement started ...", null, -1, -1);
-
-        final IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
-        final Transformer transformer = new Transformer(classBytesReader, "detect=true;debug=" + DEBUG, null, null);
-
-        transformer.setLogout(new MessageOutput() {
+  public void process() {
+    try {
+      ActionRunner.runInsideWriteAction(
+          new ActionRunner.InterruptibleRunnable() {
             @Override
-            public void println(String message) {
-                compileContext.addMessage(CompilerMessageCategory.INFORMATION, message, null, -1, -1);
+            public void run() throws Exception {
+              doProcess();
             }
-        });
-
-        final ProgressIndicator progressIndicator = compileContext.getProgressIndicator();
-        progressIndicator.setIndeterminate(true);
-        progressIndicator.setText("Ebean enhancement");
-
-        final InputStreamTransform isTransform = new InputStreamTransform(transformer, new DeliverenceBanjoClassLoader(getClass().getClassLoader()));
-
-        for (Entry<String, File> entry : compiledClasses.entrySet()) {
-            final String className = entry.getKey();
-            final File file = entry.getValue();
-
-            progressIndicator.setText2(className);
-
-            final byte[] transformed = isTransform.transform(className, file);
-            if (transformed != null) {
-                final VirtualFile outputFile = VfsUtil.findFileByIoFile(file, true);
-                outputFile.setBinaryContent(transformed);
-            }
-        }
-
-        compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement done!", null, -1, -1);
+          }
+      );
+    } catch (Exception e) {
+      compileContext.addMessage(CompilerMessageCategory.ERROR, e.getClass().getName() + ":" + e.getMessage(), null, -1, -1);
     }
+  }
+
+  /**
+   * ClassLoader aware of the files being compiled by IDEA.
+   */
+  private class CompiledFilesAwareClassLoader extends URLClassLoader {
+
+    CompiledFilesAwareClassLoader(ClassLoader parent) {
+      super(new URL[0], parent);
+    }
+
+    @Override
+    public Class<?> loadClass(final String name) throws ClassNotFoundException {
+
+      Class<?> clazz;
+      File f = compiledClasses.get(name);
+      if (f != null) {
+        try (FileInputStream fis = new FileInputStream(f)) {
+          byte[] x = readBytes(fis);
+          clazz = defineClass(name, x, 0, x.length);
+        } catch (IOException e) {
+          compileContext.addMessage(CompilerMessageCategory.ERROR, "Couldn't read file " + f, null, -1, -1);
+          clazz = super.loadClass(name);
+        }
+      } else {
+        clazz = super.loadClass(name);
+      }
+      return clazz;
+    }
+  }
+
+  private void doProcess() throws IOException, IllegalClassFormatException {
+
+    compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement started ...", null, -1, -1);
+    final IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
+    final Transformer transformer = new Transformer(classBytesReader, "detect=true;debug=" + DEBUG, null, null);
+
+    transformer.setLogout(new MessageOutput() {
+      @Override
+      public void println(String message) {
+        compileContext.addMessage(CompilerMessageCategory.INFORMATION, message, null, -1, -1);
+      }
+    });
+
+    ProgressIndicator progressIndicator = compileContext.getProgressIndicator();
+    progressIndicator.setIndeterminate(true);
+    progressIndicator.setText("Ebean enhancement");
+
+    InputStreamTransform isTransform = new InputStreamTransform(transformer, new CompiledFilesAwareClassLoader(getClass().getClassLoader()));
+
+    for (Entry<String, File> entry : compiledClasses.entrySet()) {
+      String className = entry.getKey();
+      File file = entry.getValue();
+
+      progressIndicator.setText2(className);
+
+      byte[] transformed = isTransform.transform(className, file);
+      if (transformed != null) {
+        VirtualFile outputFile = VfsUtil.findFileByIoFile(file, true);
+        outputFile.setBinaryContent(transformed);
+      }
+    }
+
+    compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement done!", null, -1, -1);
+  }
 }
