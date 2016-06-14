@@ -30,22 +30,23 @@ import com.intellij.openapi.project.Project;
  * @author yevgenyk - Updated 28/04/2014 for IDEA 13
  */
 public class ToggleEbeanAction extends ToggleAction {
-    @Override
-    public boolean isSelected(AnActionEvent e) {
-        final Project currentProject = e.getProject();
-        if (currentProject != null && currentProject.hasComponent(EbeanActionComponent.class)) {
-            final EbeanActionComponent action = currentProject.getComponent(EbeanActionComponent.class);
-            return action.isEnabled();
-        }
-        return false;
+  
+  @Override
+  public boolean isSelected(AnActionEvent e) {
+    final Project currentProject = e.getProject();
+    if (currentProject != null && currentProject.hasComponent(EbeanActionComponent.class)) {
+      final EbeanActionComponent action = currentProject.getComponent(EbeanActionComponent.class);
+      return action.isEnabled();
     }
+    return false;
+  }
 
-    @Override
-    public void setSelected(AnActionEvent e, boolean selected) {
-        final Project currentProject = e.getProject();
-        if (currentProject != null && currentProject.hasComponent(EbeanActionComponent.class)) {
-            final EbeanActionComponent action = currentProject.getComponent(EbeanActionComponent.class);
-            action.setEnabled(selected);
-        }
+  @Override
+  public void setSelected(AnActionEvent e, boolean selected) {
+    final Project currentProject = e.getProject();
+    if (currentProject != null && currentProject.hasComponent(EbeanActionComponent.class)) {
+      final EbeanActionComponent action = currentProject.getComponent(EbeanActionComponent.class);
+      action.setEnabled(selected);
     }
+  }
 }
