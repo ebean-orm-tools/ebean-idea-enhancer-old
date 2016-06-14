@@ -107,7 +107,7 @@ public class EbeanEnhancementTask {
 
     compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement started ...", null, -1, -1);
     final IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
-    final Transformer transformer = new Transformer(classBytesReader, "detect=true;debug=" + DEBUG, null, null);
+    final Transformer transformer = new Transformer(classBytesReader, "detect=true;debug=" + DEBUG, null);
 
     transformer.setLogout(new MessageOutput() {
       @Override
