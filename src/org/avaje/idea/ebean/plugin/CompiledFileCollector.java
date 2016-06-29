@@ -23,22 +23,30 @@ import com.intellij.openapi.compiler.CompilationStatusListener;
 import com.intellij.openapi.compiler.CompileContext;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author yevgenyk - Updated 28/04/2014 for IDEA 13
  */
 public class CompiledFileCollector implements CompilationStatusListener {
 
-  private LinkedHashMap<String, File> compiledClasses = new LinkedHashMap<>();
+  private Map<String, CompiledFile> compiledClasses = new HashMap<>();
 
   @Override
   public void fileGenerated(String outputRoot, String relativePath) {
+
     // Collect all valid compiled '.class' files
-    final CompiledFile compiledFile = createCompiledFile(outputRoot, relativePath);
+    CompiledFile compiledFile = createCompiledFile(outputRoot, relativePath);
     if (compiledFile != null) {
-      this.compiledClasses.put(compiledFile.className, compiledFile.file);
+      addClass(compiledFile);
     }
+  }
+
+  private void addClass(CompiledFile compiledFile) {
+    this.compiledClasses.put(compiledFile.className, compiledFile);
   }
 
   private CompiledFile createCompiledFile(String outputRoot, String relativePath) {
@@ -47,48 +55,115 @@ public class CompiledFileCollector implements CompilationStatusListener {
       return null;
     }
 
-    final File file = new File(outputRoot, relativePath);
+    File file = new File(outputRoot, relativePath);
     if (!file.exists()) {
       return null;
     }
 
-    final String className = resolveClassName(relativePath);
-
-    return new CompiledFile(file, className);
+    String className = resolveClassName(relativePath);
+    return new CompiledFile(file, className, outputRoot);
   }
 
   /**
    * Given a content path and a class file path, resolve the fully qualified class name
    */
-  private String resolveClassName(String relativePath) {
-    final int extensionPos = relativePath.lastIndexOf('.');
+  private static String resolveClassName(String relativePath) {
+    int extensionPos = relativePath.lastIndexOf('.');
     return relativePath.substring(0, extensionPos).replace('/', '.');
   }
 
   @Override
-  public void compilationFinished(boolean aborted,
-                                  int errors,
-                                  int warnings,
-                                  CompileContext compileContext) {
-    new EbeanEnhancementTask(compileContext, compiledClasses).process();
-    this.compiledClasses = new LinkedHashMap<>();
+  public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
+
+
+    Map<String,File> asFileMap = new LinkedHashMap<>();
+
+    Collection<CompiledFile> values = compiledClasses.values();
+    for (CompiledFile value : values) {
+      addEntry(asFileMap, value);
+      CompiledFile qb = value.toQueryBean();
+      if (qb != null) {
+        addEntry(asFileMap, qb);
+      }
+      CompiledFile assocBean = value.toQueryAssocBean();
+      if (assocBean != null) {
+        addEntry(asFileMap, assocBean);
+      }
+    }
+
+    new EbeanEnhancementTask(compileContext, asFileMap).process();
+    this.compiledClasses = new HashMap<>();
   }
 
-  public static class CompiledFile {
+  private void addEntry(Map<String, File> asFileMap, CompiledFile value) {
+    asFileMap.put(value.className, value.file);
+  }
+
+  private static class CompiledFile {
+
     private final File file;
+
     private final String className;
+    private final String pkgDir;
+    private final String shortName;
+    private final String outputRoot;
 
     private CompiledFile(File file, String className) {
       this.file = file;
       this.className = className;
+      this.outputRoot = null;
+      this.pkgDir = null;
+      this.shortName = null;
+    }
+
+    private CompiledFile(File file, String className, String outputRoot) {
+      this.file = file;
+      this.className = className;
+      this.outputRoot = outputRoot;
+
+      int pos = className.lastIndexOf('.');
+      if (pos == -1) {
+        this.pkgDir = null;
+        this.shortName = null;
+      } else {
+        this.pkgDir = className.substring(0, pos).replace('.','/');
+        this.shortName = className.substring(pos+1);
+      }
+
+    }
+
+    /**
+     * Return a query bean (or null) based on naming convention.
+     */
+    CompiledFile toQueryBean() {
+      if (pkgDir != null) {
+        return getFile(pkgDir+"/query/Q"+shortName+".class");
+      }
+      return null;
+    }
+
+    /**
+     * Return a assoc query bean (or null) based on naming convention.
+     */
+    CompiledFile toQueryAssocBean() {
+      if (pkgDir != null) {
+        return getFile(pkgDir+"/query/assoc/QAssoc"+shortName+".class");
+      }
+      return null;
+    }
+
+    private CompiledFile getFile(String assocClassName) {
+
+      File file = new File(outputRoot, assocClassName);
+      if (file.exists()) {
+        return new CompiledFile(file, resolveClassName(assocClassName));
+      }
+      return null;
     }
 
     @Override
     public String toString() {
-      return "CompiledFile{" +
-          "file=" + file +
-          ", className='" + className + '\'' +
-          '}';
+      return "CompiledFile[file:" + file +"  className:" + className + "]";
     }
   }
 }
