@@ -1,15 +1,16 @@
 <idea-plugin version="2">
   <id>org.avaje.ebean.enhancer</id>
-  <name>Ebean ORM Enhancer</name>
-  <version>4.11.2</version>
+  <name>Ebean 4.x Enhancement</name>
+  <version>4.11.3</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave</vendor>
   <depends>com.intellij.modules.java</depends>
 
   <description><![CDATA[
-      Post-compile Ebean ORM enhancement
+      Ebean enhancement for versions 4.x to 7.x
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>4.11.3</b> Rename to Ebean 4.x Enhancement (as 8.x specific version coming)<br>
       <b>4.11.2</b> Combine entity and query bean enhancement<br>
       <b>4.11.1</b> Version 4.11.1 agent (drop use of ebean.mf for packages to enhance)<br>
       <b>4.10.1.3</b> Fix PR#2 - aware of compiled classes during enhancement<br>
@@ -44,8 +45,8 @@
 
   <actions>
     <action class="org.avaje.idea.ebean.plugin.ToggleEbeanAction"
-            text="Ebean ORM Enhancement"
-            description="Ebean ORM enhancement - http://ebean-orm.github.io/"
+            text="Ebean 4.x Enhancement"
+            description="Ebean 4.x enhancement - http://ebean-orm.github.io/"
             id="org.avaje.idea.ebean.plugin.ToggleEbeanAction">
       <add-to-group anchor="after" group-id="BuildMenu" relative-to-action="Compile"/>
       <add-to-group anchor="after" group-id="ProjectViewPopupMenu" relative-to-action="Compile"/>
