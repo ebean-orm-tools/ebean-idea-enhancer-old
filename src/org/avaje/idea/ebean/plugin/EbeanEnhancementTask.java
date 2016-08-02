@@ -110,7 +110,7 @@ class EbeanEnhancementTask {
 
     Set<String> packages = new ManifestReader(compileContext).findManifests();
 
-    compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement started ... packages:" + packages, null, -1, -1);
+    compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean 8.x enhancement started ... packages:" + packages, null, -1, -1);
 
     IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
     IdeaClassLoader baseClassLoader = new IdeaClassLoader(Thread.currentThread().getContextClassLoader(), classBytesReader);
