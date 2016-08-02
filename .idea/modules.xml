@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ebean-idea-enhancer.iml" filepath="$PROJECT_DIR$/ebean-idea-enhancer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ebean8-idea-enhancer.iml" filepath="$PROJECT_DIR$/ebean8-idea-enhancer.iml" />
     </modules>
   </component>
 </project>

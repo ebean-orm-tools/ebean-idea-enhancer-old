@@ -1,4 +1,4 @@
-package org.avaje.idea.ebean.plugin;
+package org.avaje.idea.ebean8.plugin;
 
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;

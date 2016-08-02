@@ -1,15 +1,17 @@
 <idea-plugin version="2">
-  <id>org.avaje.ebean.enhancer</id>
-  <name>Ebean 4.x Enhancement</name>
-  <version>4.11.3</version>
+  <id>org.avaje.ebean8.enhancer</id>
+  <name>Ebean 8.x Enhancement</name>
+  <version>8.1.1</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave</vendor>
   <depends>com.intellij.modules.java</depends>
 
   <description><![CDATA[
-      Ebean enhancement for versions 4.x to 7.x
+      Ebean enhancement for 8.x
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>8.1.1</b> Use 8.1.1 agent (for use with 8.x Ebean)<br>
+      <br>
       <b>4.11.3</b> Rename to Ebean 4.x Enhancement (as 8.x specific version coming)<br>
       <b>4.11.2</b> Combine entity and query bean enhancement<br>
       <b>4.11.1</b> Version 4.11.1 agent (drop use of ebean.mf for packages to enhance)<br>
@@ -36,18 +38,18 @@
 
   <project-components>
     <component>
-      <implementation-class>org.avaje.idea.ebean.plugin.EbeanActionComponent</implementation-class>
-      <interface-class>org.avaje.idea.ebean.plugin.EbeanActionComponent</interface-class>
+      <implementation-class>org.avaje.idea.ebean8.plugin.EbeanActionComponent</implementation-class>
+      <interface-class>org.avaje.idea.ebean8.plugin.EbeanActionComponent</interface-class>
       <!-- For configuration save in iws files -->
       <option name="workspace" value="true"/>
     </component>
   </project-components>
 
   <actions>
-    <action class="org.avaje.idea.ebean.plugin.ToggleEbeanAction"
-            text="Ebean 4.x Enhancement"
-            description="Ebean 4.x enhancement - http://ebean-orm.github.io/"
-            id="org.avaje.idea.ebean.plugin.ToggleEbeanAction">
+    <action class="org.avaje.idea.ebean8.plugin.ToggleEbeanAction"
+            text="Ebean 8.x Enhancement"
+            description="Ebean 8.x enhancement - http://ebean-orm.github.io/"
+            id="org.avaje.idea.ebean8.plugin.ToggleEbeanAction">
       <add-to-group anchor="after" group-id="BuildMenu" relative-to-action="Compile"/>
       <add-to-group anchor="after" group-id="ProjectViewPopupMenu" relative-to-action="Compile"/>
     </action>
