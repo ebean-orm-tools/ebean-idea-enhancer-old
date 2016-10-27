@@ -24,17 +24,21 @@ import com.avaje.ebean.enhance.agent.MessageOutput;
 import com.avaje.ebean.enhance.agent.Transformer;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ActionRunner;
+import com.intellij.util.containers.HashSet;
 import org.avaje.ebean.typequery.agent.CombinedTransform;
+import org.avaje.ebean.typequery.agent.MessageListener;
 import org.avaje.ebean.typequery.agent.QueryBeanTransformer;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.instrument.IllegalClassFormatException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Map;
@@ -51,7 +55,7 @@ import static com.avaje.ebean.enhance.agent.InputStreamTransform.readBytes;
  */
 class EbeanEnhancementTask {
 
-  private static final int DEBUG = 0;
+  private int debugLevel;
 
   private final CompileContext compileContext;
 
@@ -60,6 +64,14 @@ class EbeanEnhancementTask {
   EbeanEnhancementTask(CompileContext compileContext, Map<String, File> compiledClasses) {
     this.compileContext = compileContext;
     this.compiledClasses = compiledClasses;
+    String envDebug = System.getProperty("ebean_idea_debug");
+    if (envDebug != null) {
+      try {
+        debugLevel = Integer.parseInt(envDebug);
+      } catch (NumberFormatException e) {
+        debugLevel = 2;
+      }
+    }
   }
 
   void process() {
@@ -73,7 +85,7 @@ class EbeanEnhancementTask {
           }
       );
     } catch (Exception e) {
-      compileContext.addMessage(CompilerMessageCategory.ERROR, e.getClass().getName() + ":" + e.getMessage(), null, -1, -1);
+      logError(e.getClass().getName() + ":" + e.getMessage());
     }
   }
 
@@ -82,27 +94,29 @@ class EbeanEnhancementTask {
    */
   private class CompiledFilesAwareClassLoader extends URLClassLoader {
 
-    CompiledFilesAwareClassLoader(ClassLoader parent) {
-      super(new URL[0], parent);
+    CompiledFilesAwareClassLoader(URL[] urls, ClassLoader parent) {
+      super(urls, parent);
     }
 
     @Override
     public Class<?> loadClass(final String name) throws ClassNotFoundException {
 
-      Class<?> clazz;
-      File f = compiledClasses.get(name);
-      if (f != null) {
-        try (FileInputStream fis = new FileInputStream(f)) {
-          byte[] x = readBytes(fis);
-          clazz = defineClass(name, x, 0, x.length);
-        } catch (IOException e) {
-          compileContext.addMessage(CompilerMessageCategory.ERROR, "Couldn't read file " + f, null, -1, -1);
-          clazz = super.loadClass(name);
+      try {
+        return super.loadClass(name);
+      } catch (ClassNotFoundException e) {
+        File f = compiledClasses.get(name);
+        if (f != null) {
+          try (FileInputStream fis = new FileInputStream(f)) {
+            byte[] x = readBytes(fis);
+            return defineClass(name, x, 0, x.length);
+
+          } catch (IOException ex) {
+            logError("Couldn't read file " + f);
+            throw new ClassNotFoundException("Could not load class "+name, ex);
+          }
         }
-      } else {
-        clazz = super.loadClass(name);
+        throw new ClassNotFoundException("Could not find class "+name);
       }
-      return clazz;
     }
   }
 
@@ -110,21 +124,29 @@ class EbeanEnhancementTask {
 
     Set<String> packages = new ManifestReader(compileContext).findManifests();
 
-    compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean 8.x enhancement started ... packages:" + packages, null, -1, -1);
+    logInfo("Ebean 8.x enhancement started ... packages:" + packages+" debug:"+debugLevel);
+
+    ClassLoader outDirAwareClassLoader = buildClassLoader();
 
     IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
-    IdeaClassLoader baseClassLoader = new IdeaClassLoader(Thread.currentThread().getContextClassLoader(), classBytesReader);
-    final CompiledFilesAwareClassLoader classLoader = new CompiledFilesAwareClassLoader(baseClassLoader);
+    IdeaClassLoader classLoader = new IdeaClassLoader(outDirAwareClassLoader, classBytesReader);
 
-    final Transformer transformer = new Transformer(classBytesReader, "debug=" + DEBUG, null);
-    final QueryBeanTransformer queryBeanTransformer = new QueryBeanTransformer("debug=" + DEBUG, baseClassLoader, packages);
+    Transformer transformer = new Transformer(classBytesReader, "debug=" + debugLevel, null);
+    QueryBeanTransformer queryBeanTransformer = new QueryBeanTransformer("debug=" + debugLevel, classLoader, packages);
 
-    final CombinedTransform combinedTransform = new CombinedTransform(transformer, queryBeanTransformer);
+    CombinedTransform combinedTransform = new CombinedTransform(transformer, queryBeanTransformer);
 
     transformer.setLogout(new MessageOutput() {
       @Override
-      public void println(String message) {
-        compileContext.addMessage(CompilerMessageCategory.INFORMATION, message, null, -1, -1);
+      public void println(String msg) {
+        logInfo(msg);
+      }
+    });
+
+    queryBeanTransformer.setMessageListener(new MessageListener() {
+      @Override
+      public void debug(String msg) {
+        logInfo(msg);
       }
     });
 
@@ -144,16 +166,48 @@ class EbeanEnhancementTask {
         CombinedTransform.Response response = combinedTransform.transform(classLoader, className, null, null, origBytes);
         if (response.isEnhanced()) {
           writeTransformed(file, response.getClassBytes());
-          String msg = "enhanced: " + className + " type:" + (response.isFirst() ? " e" : "") + (response.isSecond() ? " q" : "");
-          compileContext.addMessage(CompilerMessageCategory.INFORMATION, msg, null, -1, -1);
+          logInfo("enhanced: " + className + " type:" + (response.isFirst() ? " e" : "") + (response.isSecond() ? " q" : ""));
         }
 
-      } catch (IOException e) {
-        compileContext.addMessage(CompilerMessageCategory.ERROR, "IOException trying to enhance:" + className + " error:" + e.getMessage(), null, -1, -1);
+      } catch (Exception e) {
+        logError("Exception trying to enhance:" + className + " error:" + e.getMessage());
       }
     }
 
-    compileContext.addMessage(CompilerMessageCategory.INFORMATION, "Ebean enhancement done!", null, -1, -1);
+    logInfo("Ebean enhancement done!");
+  }
+
+  /**
+   * Build the base classLoader. Ideally we have the "compile classpath" but we don't have that here.
+   * (Agents use classLoader to determine common super classes etc).
+   */
+  private CompiledFilesAwareClassLoader buildClassLoader() throws MalformedURLException {
+
+    Module[] modules = compileContext.getProjectCompileScope().getAffectedModules();
+
+    Set<URL> out = new HashSet<>();
+    for (Module module : modules) {
+      addFileSystemUrl(out, compileContext.getModuleOutputDirectory(module));
+      addFileSystemUrl(out, compileContext.getModuleOutputDirectoryForTests(module));
+    }
+
+    ClassLoader pluginClassLoader = this.getClass().getClassLoader();
+    URL[] urls = out.toArray(new URL[out.size()]);
+    return new CompiledFilesAwareClassLoader(urls, pluginClassLoader);
+  }
+
+  private void logInfo(String msg) {
+    compileContext.addMessage(CompilerMessageCategory.INFORMATION, msg, null, -1, -1);
+  }
+
+  private void logError(String msg) {
+    compileContext.addMessage(CompilerMessageCategory.ERROR, msg, null, -1, -1);
+  }
+
+  private void addFileSystemUrl(Set<URL> out, VirtualFile outDir) throws MalformedURLException {
+    if (outDir != null) {
+      out.add(new URL(outDir.getUrl()));
+    }
   }
 
   /**
