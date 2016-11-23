@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3b279c5b-e285-483b-83c4-06761f578741" name="Default" comment="Fix an issue with querybean agent error trying to determine getCommonSuperClass() - with Model #6">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ebean8-idea-enhancer.zip" afterPath="$PROJECT_DIR$/ebean8-idea-enhancer.zip" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ebean8-idea-enhancer.iml" afterPath="$PROJECT_DIR$/ebean8-idea-enhancer.iml" />
     </list>
@@ -834,7 +832,7 @@
       <workItem from="1479544086549" duration="612000" />
       <workItem from="1479903876212" duration="1031000" />
       <workItem from="1479904929870" duration="343000" />
-      <workItem from="1479905295357" duration="301000" />
+      <workItem from="1479905295357" duration="337000" />
     </task>
     <task id="LOCAL-00001" summary="Initial add (based on copy from https://github.com/ykrasik/idea-ebean-enhancer)">
       <created>1432900070435</created>
@@ -997,11 +995,25 @@
       <option name="project" value="LOCAL" />
       <updated>1479905589911</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="#6 - misc">
+      <created>1479905607257</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1479905607257</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Update pre-built plugin as zip">
+      <created>1479905630592</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1479905630592</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="94743000" />
+    <option name="totallyTimeSpent" value="94779000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1920" height="1053" extended-state="6" />
@@ -1123,7 +1135,9 @@
     <MESSAGE value="Update Log enhancement start message to specify 8.x" />
     <MESSAGE value="Fix an issue with querybean agent error trying to determine getCommonSuperClass() - with Model #6" />
     <MESSAGE value="Fix issue where Application runWriteAction() should be used, bump agent to 8.2.2 #7" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix issue where Application runWriteAction() should be used, bump agent to 8.2.2 #7" />
+    <MESSAGE value="#6 - misc" />
+    <MESSAGE value="Update pre-built plugin as zip" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update pre-built plugin as zip" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
