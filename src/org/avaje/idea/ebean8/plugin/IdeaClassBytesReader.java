@@ -20,7 +20,6 @@
 package org.avaje.idea.ebean8.plugin;
 
 import com.avaje.ebean.enhance.agent.ClassBytesReader;
-import com.google.common.io.Files;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.module.Module;
@@ -31,6 +30,7 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.search.GlobalSearchScope;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 
@@ -59,7 +59,7 @@ public class IdeaClassBytesReader implements ClassBytesReader {
 
     if (compiledFile != null) {
       try {
-        return Files.toByteArray(compiledFile);
+        return IOUtils.read(new FileInputStream(compiledFile));
       } catch (IOException e) {
         warn("Error reading file contents: " + compiledFile);
         return null;

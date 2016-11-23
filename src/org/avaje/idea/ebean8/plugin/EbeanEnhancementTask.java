@@ -20,8 +20,8 @@
 package org.avaje.idea.ebean8.plugin;
 
 import com.avaje.ebean.enhance.agent.InputStreamTransform;
-import com.avaje.ebean.enhance.agent.MessageOutput;
 import com.avaje.ebean.enhance.agent.Transformer;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.module.Module;
@@ -31,7 +31,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ActionRunner;
 import com.intellij.util.containers.HashSet;
 import org.avaje.ebean.typequery.agent.CombinedTransform;
-import org.avaje.ebean.typequery.agent.MessageListener;
 import org.avaje.ebean.typequery.agent.QueryBeanTransformer;
 
 import java.io.File;
@@ -136,19 +135,9 @@ class EbeanEnhancementTask {
 
     CombinedTransform combinedTransform = new CombinedTransform(transformer, queryBeanTransformer);
 
-    transformer.setLogout(new MessageOutput() {
-      @Override
-      public void println(String msg) {
-        logInfo(msg);
-      }
-    });
+    transformer.setLogout(msg -> logInfo(msg));
 
-    queryBeanTransformer.setMessageListener(new MessageListener() {
-      @Override
-      public void debug(String msg) {
-        logInfo(msg);
-      }
-    });
+    queryBeanTransformer.setMessageListener(msg -> logInfo(msg));
 
     ProgressIndicator progressIndicator = compileContext.getProgressIndicator();
     progressIndicator.setIndeterminate(true);
@@ -160,21 +149,26 @@ class EbeanEnhancementTask {
 
       progressIndicator.setText2(className);
 
-      try {
-        byte[] origBytes = readFileBytes(file);
-
-        CombinedTransform.Response response = combinedTransform.transform(classLoader, className, null, null, origBytes);
-        if (response.isEnhanced()) {
-          writeTransformed(file, response.getClassBytes());
-          logInfo("enhanced: " + className + " type:" + (response.isFirst() ? " e" : "") + (response.isSecond() ? " q" : ""));
-        }
-
-      } catch (Exception e) {
-        logError("Exception trying to enhance:" + className + " error:" + e.getMessage());
-      }
+      ApplicationManager.getApplication().runWriteAction(() ->
+          processEnhancement(classLoader, combinedTransform, className, file));
     }
 
     logInfo("Ebean enhancement done!");
+  }
+
+  private void processEnhancement(IdeaClassLoader classLoader, CombinedTransform combinedTransform, String className, File file) {
+    try {
+      byte[] origBytes = readFileBytes(file);
+
+      CombinedTransform.Response response = combinedTransform.transform(classLoader, className, null, null, origBytes);
+      if (response.isEnhanced()) {
+        writeTransformed(file, response.getClassBytes());
+        logInfo("enhanced: " + className + " type:" + (response.isFirst() ? " e" : "") + (response.isSecond() ? " q" : ""));
+      }
+
+    } catch (Exception e) {
+      logError("Exception trying to enhance:" + className + " error:" + e.getMessage());
+    }
   }
 
   /**
