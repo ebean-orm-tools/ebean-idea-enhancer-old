@@ -1,4 +1,4 @@
-package com.avaje.ebean.bean;
+package io.ebean.bean;
 
 public interface EntityBean {
 }

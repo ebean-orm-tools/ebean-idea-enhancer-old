@@ -17,7 +17,7 @@
  *     along with Ebean-idea-plugin.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.avaje.idea.ebean8.plugin;
+package org.avaje.idea.ebean10.plugin;
 
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.components.*;

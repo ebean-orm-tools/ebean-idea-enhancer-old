@@ -1,4 +1,4 @@
-package org.avaje.idea.ebean8.plugin;
+package org.avaje.idea.ebean10.plugin;
 
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package org.avaje.idea.ebean8.plugin;
+package org.avaje.idea.ebean10.plugin;
 
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
@@ -9,7 +9,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import org.avaje.ebean.typequery.agent.AgentManifestReader;
+import io.ebean.typequery.agent.AgentManifestReader;
 
 import java.io.IOException;
 import java.io.InputStream;

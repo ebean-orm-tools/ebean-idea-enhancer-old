@@ -17,10 +17,10 @@
  *     along with Ebean-idea-plugin.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.avaje.idea.ebean8.plugin;
+package org.avaje.idea.ebean10.plugin;
 
-import com.avaje.ebean.enhance.agent.InputStreamTransform;
-import com.avaje.ebean.enhance.agent.Transformer;
+import io.ebean.enhance.agent.InputStreamTransform;
+import io.ebean.enhance.agent.Transformer;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
@@ -30,8 +30,8 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ActionRunner;
 import com.intellij.util.containers.HashSet;
-import org.avaje.ebean.typequery.agent.CombinedTransform;
-import org.avaje.ebean.typequery.agent.QueryBeanTransformer;
+import io.ebean.typequery.agent.CombinedTransform;
+import io.ebean.typequery.agent.QueryBeanTransformer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static com.avaje.ebean.enhance.agent.InputStreamTransform.readBytes;
+import static io.ebean.enhance.agent.InputStreamTransform.readBytes;
 
 /**
  * This task actually hand all successfully compiled classes over to the Ebean weaver.
@@ -75,14 +75,7 @@ class EbeanEnhancementTask {
 
   void process() {
     try {
-      ActionRunner.runInsideWriteAction(
-          new ActionRunner.InterruptibleRunnable() {
-            @Override
-            public void run() throws Exception {
-              doProcess();
-            }
-          }
-      );
+      ActionRunner.runInsideWriteAction(this::doProcess);
     } catch (Exception e) {
       logError(e.getClass().getName() + ":" + e.getMessage());
     }

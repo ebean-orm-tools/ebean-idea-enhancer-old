@@ -17,9 +17,9 @@
  *     along with Ebean-idea-plugin.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.avaje.idea.ebean8.plugin;
+package org.avaje.idea.ebean10.plugin;
 
-import com.avaje.ebean.enhance.agent.ClassBytesReader;
+import io.ebean.enhance.agent.ClassBytesReader;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.module.Module;
@@ -65,7 +65,7 @@ public class IdeaClassBytesReader implements ClassBytesReader {
         return null;
       }
     }
-    if ("com.avaje.ebean.Model".equals(className)) {
+    if ("Model".equals(className)) {
       return null;
     }
 

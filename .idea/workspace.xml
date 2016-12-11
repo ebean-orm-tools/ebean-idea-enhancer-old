@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3b279c5b-e285-483b-83c4-06761f578741" name="Default" comment="Fix an issue with querybean agent error trying to determine getCommonSuperClass() - with Model #6">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/avaje/ebean/Model.java" afterPath="$PROJECT_DIR$/src/io/ebean/Model.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/avaje/ebean/bean/EntityBean.java" afterPath="$PROJECT_DIR$/src/io/ebean/bean/EntityBean.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/CompiledFileCollector.java" afterPath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/CompiledFileCollector.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/EbeanActionComponent.java" afterPath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanActionComponent.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/EbeanEnhancementTask.java" afterPath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanEnhancementTask.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IOUtils.java" afterPath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IOUtils.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IdeaClassBytesReader.java" afterPath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IdeaClassBytesReader.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IdeaClassLoader.java" afterPath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IdeaClassLoader.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/ManifestReader.java" afterPath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ManifestReader.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/ToggleEbeanAction.java" afterPath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ToggleEbeanAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ebean8-idea-enhancer.iml" afterPath="$PROJECT_DIR$/ebean8-idea-enhancer.iml" />
     </list>
     <ignored path="ebean-idea-enhancer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,21 +37,130 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="12" column="60" lean-forward="false" selection-start-line="12" selection-start-column="60" selection-end-line="12" selection-end-column="60" />
+            <state relative-caret-position="902">
+              <caret line="41" column="22" lean-forward="false" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EbeanEnhancementTask.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/EbeanEnhancementTask.java">
+      <file leaf-file-name="ManifestReader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ManifestReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="151" column="56" lean-forward="false" selection-start-line="151" selection-start-column="42" selection-end-line="151" selection-end-column="56" />
+            <state relative-caret-position="242">
+              <caret line="11" column="9" lean-forward="false" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+              <folding>
+                <element signature="e#1030#1031#0" expanded="false" />
+                <element signature="e#1076#1077#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EbeanEnhancementTask.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanEnhancementTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="39" column="38" lean-forward="false" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ToggleEbeanAction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ToggleEbeanAction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="616">
+              <caret line="47" column="26" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#1936#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ToggleAction.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/actionSystem/ToggleAction.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="15" column="22" lean-forward="false" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActionRunner.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/util/ActionRunner.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="18" column="21" lean-forward="false" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Application.java" pinned="false" current-in-tab="false">
+        <entry file="jar:///usr/lib/jvm/jdk1.8/javafx-src.zip!/com/sun/glass/ui/Application.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="110">
+              <caret line="41" column="22" lean-forward="false" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#25000#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#2683#2684#0" expanded="false" />
+                <element signature="e#2719#2720#0" expanded="false" />
+                <element signature="e#4209#4210#0" expanded="false" />
+                <element signature="e#4248#4249#0" expanded="false" />
+                <element signature="e#4328#4329#0" expanded="false" />
+                <element signature="e#4364#4365#0" expanded="false" />
+                <element signature="e#13120#13121#0" expanded="false" />
+                <element signature="e#13166#13167#0" expanded="false" />
+                <element signature="e#13260#13261#0" expanded="false" />
+                <element signature="e#13308#13309#0" expanded="false" />
+                <element signature="e#13391#13392#0" expanded="false" />
+                <element signature="e#13437#13438#0" expanded="false" />
+                <element signature="e#13569#13570#0" expanded="false" />
+                <element signature="e#13641#13642#0" expanded="false" />
+                <element signature="e#18267#18268#0" expanded="false" />
+                <element signature="e#18310#18311#0" expanded="false" />
+                <element signature="e#19369#19370#0" expanded="false" />
+                <element signature="e#19429#19430#0" expanded="false" />
+                <element signature="e#19844#19845#0" expanded="false" />
+                <element signature="e#19882#19883#0" expanded="false" />
+                <element signature="e#19949#19950#0" expanded="false" />
+                <element signature="e#19996#19997#0" expanded="false" />
+                <element signature="e#20040#20041#0" expanded="false" />
+                <element signature="e#20076#20077#0" expanded="false" />
+                <element signature="e#20134#20135#0" expanded="false" />
+                <element signature="e#20184#20185#0" expanded="false" />
+                <element signature="e#22427#22428#0" expanded="false" />
+                <element signature="e#22465#22466#0" expanded="false" />
+                <element signature="e#23807#23808#0" expanded="false" />
+                <element signature="e#23835#23836#0" expanded="false" />
+                <element signature="e#23878#23879#0" expanded="false" />
+                <element signature="e#23906#23907#0" expanded="false" />
+                <element signature="e#23939#23940#0" expanded="false" />
+                <element signature="e#23967#23968#0" expanded="false" />
+                <element signature="e#24005#24006#0" expanded="false" />
+                <element signature="e#24033#24034#0" expanded="false" />
+                <element signature="e#24068#24069#0" expanded="false" />
+                <element signature="e#24095#24096#0" expanded="false" />
+                <element signature="e#24940#24941#0" expanded="false" />
+                <element signature="e#24996#24997#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransactionGuard.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/application/TransactionGuard.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="616">
+              <caret line="36" column="47" lean-forward="false" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -56,25 +177,12 @@
         </entry>
       </file>
       <file leaf-file-name="IdeaClassBytesReader.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IdeaClassBytesReader.java">
+        <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IdeaClassBytesReader.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="88">
-              <caret line="34" column="21" lean-forward="false" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+              <caret line="21" column="9" lean-forward="false" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
               <folding>
-                <element signature="e#0#6473#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IOUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IOUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="e#0#6451#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -88,6 +196,14 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>com.avaje</find>
+    </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -115,10 +231,12 @@
         <option value="$PROJECT_DIR$/src/com/avaje/ebean/bean/Model.java" />
         <option value="$PROJECT_DIR$/src/com/avaje/ebean/Model2.java" />
         <option value="$PROJECT_DIR$/src/com/avaje/ebean/Model.java" />
-        <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IdeaClassBytesReader.java" />
         <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IOUtils.java" />
         <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/EbeanEnhancementTask.java" />
+        <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IdeaClassBytesReader.java" />
         <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ManifestReader.java" />
+        <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanEnhancementTask.java" />
       </list>
     </option>
   </component>
@@ -151,14 +269,14 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ebean-idea-enhancer" />
+              <option name="myItemId" value="ebean10-idea-enhancer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -168,25 +286,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ebean-idea-enhancer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ebean-idea-enhancer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ebean-idea-enhancer" />
+              <option name="myItemId" value="ebean10-idea-enhancer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -197,14 +297,10 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ebean" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ebean-idea-enhancer" />
+              <option name="myItemId" value="ebean10-idea-enhancer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -218,7 +314,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ebean-idea-enhancer" />
+              <option name="myItemId" value="ebean10-idea-enhancer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -241,7 +337,7 @@
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.30689654" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/ebean-agent-8.2.1.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/querybean-agent-10.1.1.jar!/" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
     <property name="js.eslint.eslintPackage" value="" />
@@ -832,7 +928,18 @@
       <workItem from="1479544086549" duration="612000" />
       <workItem from="1479903876212" duration="1031000" />
       <workItem from="1479904929870" duration="343000" />
-      <workItem from="1479905295357" duration="337000" />
+      <workItem from="1479905295357" duration="416000" />
+      <workItem from="1479905733538" duration="601000" />
+      <workItem from="1480587117875" duration="384000" />
+      <workItem from="1480587517727" duration="181000" />
+      <workItem from="1480587714331" duration="380000" />
+      <workItem from="1480588111480" duration="173000" />
+      <workItem from="1480588300702" duration="233000" />
+      <workItem from="1480588551115" duration="33000" />
+      <workItem from="1480588603359" duration="74000" />
+      <workItem from="1481453546852" duration="1204000" />
+      <workItem from="1481455058576" duration="700000" />
+      <workItem from="1481457870162" duration="668000" />
     </task>
     <task id="LOCAL-00001" summary="Initial add (based on copy from https://github.com/ykrasik/idea-ebean-enhancer)">
       <created>1432900070435</created>
@@ -1009,11 +1116,25 @@
       <option name="project" value="LOCAL" />
       <updated>1479905630592</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Fix an issue with querybean agent error trying to determine getCommonSuperClass() - with Model #6">
+      <created>1479905636142</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1479905636142</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Plugin update for Ebean 10.x  (io.ebean package)">
+      <created>1481462615606</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1481462615606</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="94779000" />
+    <option name="totallyTimeSpent" value="99489000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1920" height="1053" extended-state="6" />
@@ -1036,15 +1157,13 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32606325" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.45692477" sideWeight="0.49087983" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.65976006" sideWeight="0.49785408" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4601963" sideWeight="0.49087983" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.65906626" sideWeight="0.49785408" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18910256" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="SonarLint" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -1052,11 +1171,13 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24970274" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24946581" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32606325" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="SonarLint" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25529662" sideWeight="0.49570817" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25517994" sideWeight="0.49570817" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1133,11 +1254,12 @@
     <MESSAGE value="#3 - Combine entity bean and query bean enhancement&#10;" />
     <MESSAGE value="#4 - Rename to Ebean 4.x Enhancement &#10;" />
     <MESSAGE value="Update Log enhancement start message to specify 8.x" />
-    <MESSAGE value="Fix an issue with querybean agent error trying to determine getCommonSuperClass() - with Model #6" />
     <MESSAGE value="Fix issue where Application runWriteAction() should be used, bump agent to 8.2.2 #7" />
     <MESSAGE value="#6 - misc" />
     <MESSAGE value="Update pre-built plugin as zip" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update pre-built plugin as zip" />
+    <MESSAGE value="Fix an issue with querybean agent error trying to determine getCommonSuperClass() - with Model #6" />
+    <MESSAGE value="Plugin update for Ebean 10.x  (io.ebean package)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Plugin update for Ebean 10.x  (io.ebean package)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1153,29 +1275,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/LICENSE.TXT">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/project/IndexNotReadyException.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/compiler/CompilerManager.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="99" column="23" lean-forward="false" selection-start-line="99" selection-start-column="23" selection-end-line="99" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/jdk7/src.zip!/java/net/URLClassLoader.java" />
-    <entry file="jar://$PROJECT_DIR$/lib/avaje-ebeanorm-agent-4.10.1.jar!/com/avaje/ebean/enhance/agent/EnhanceContext.class" />
     <entry file="jar://$PROJECT_DIR$/lib/avaje-ebeanorm-agent-4.10.1.jar!/com/avaje/ebean/enhance/agent/InputStreamTransform.class" />
     <entry file="jar://$PROJECT_DIR$/lib/avaje-ebeanorm-agent-4.10.1.jar!/com/avaje/ebean/enhance/agent/Transformer.class" />
     <entry file="jar://$USER_HOME$/.ideaLibSources/avaje-ebeanorm-agent-4.10.1-sources.jar!/com/avaje/ebean/enhance/agent/EnhanceContext.java" />
@@ -1193,20 +1292,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/ToggleEbeanAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="32" column="2" lean-forward="false" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/ManifestReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="26" column="6" lean-forward="false" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -1247,24 +1332,14 @@
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/ebean-agent-8.1.1.jar!/com/avaje/ebean/enhance/agent/InputStreamTransform.class" />
-    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/CompiledFileCollector.java">
+    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/CompiledFileCollector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1716">
           <caret line="107" column="59" lean-forward="false" selection-start-line="107" selection-start-column="59" selection-end-line="107" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#4978#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1625#1626#0" expanded="false" />
-            <element signature="e#1697#1698#0" expanded="false" />
-            <element signature="e#3177#3178#0" expanded="false" />
-            <element signature="e#3229#3230#0" expanded="false" />
-            <element signature="e#4888#4889#0" expanded="false" />
-            <element signature="e#4970#4971#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/EbeanActionComponent.java">
+    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanActionComponent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="42" column="25" lean-forward="false" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
@@ -1303,7 +1378,7 @@
     <entry file="jar://$PROJECT_DIR$/lib/querybean-agent-8.1.3.jar!/META-INF/MANIFEST.MF" />
     <entry file="jar://$PROJECT_DIR$/lib/querybean-agent-8.1.4-SNAPSHOT.jar!/org/avaje/ebean/typequery/agent/QueryBeanTransformer.class" />
     <entry file="jar://$PROJECT_DIR$/lib/querybean-agent-8.1.4-SNAPSHOT.jar!/org/avaje/ebean/typequery/agent/asm/CLAwareClassWriter.class" />
-    <entry file="file://$PROJECT_DIR$/src/com/avaje/ebean/bean/EntityBean.java">
+    <entry file="file://$PROJECT_DIR$/src/io/ebean/bean/EntityBean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
           <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
@@ -1324,13 +1399,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IdeaClassLoader.java">
+    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IdeaClassLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="550">
           <caret line="28" column="9" lean-forward="false" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1355,30 +1427,108 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/avaje/ebean/Model.java">
+    <entry file="file://$PROJECT_DIR$/src/io/ebean/Model.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IOUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/openapi/Disposable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="7" column="20" lean-forward="false" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/application/TransactionGuard.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="616">
+          <caret line="36" column="47" lean-forward="false" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IdeaClassBytesReader.java">
+    <entry file="jar:///usr/lib/jvm/jdk1.8/javafx-src.zip!/com/sun/glass/ui/Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="34" column="21" lean-forward="false" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+        <state relative-caret-position="110">
+          <caret line="41" column="22" lean-forward="false" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
           <folding>
-            <element signature="e#0#6473#0" expanded="false" />
+            <element signature="e#0#25000#0" expanded="false" />
             <element signature="imports" expanded="false" />
+            <element signature="e#2683#2684#0" expanded="false" />
+            <element signature="e#2719#2720#0" expanded="false" />
+            <element signature="e#4209#4210#0" expanded="false" />
+            <element signature="e#4248#4249#0" expanded="false" />
+            <element signature="e#4328#4329#0" expanded="false" />
+            <element signature="e#4364#4365#0" expanded="false" />
+            <element signature="e#13120#13121#0" expanded="false" />
+            <element signature="e#13166#13167#0" expanded="false" />
+            <element signature="e#13260#13261#0" expanded="false" />
+            <element signature="e#13308#13309#0" expanded="false" />
+            <element signature="e#13391#13392#0" expanded="false" />
+            <element signature="e#13437#13438#0" expanded="false" />
+            <element signature="e#13569#13570#0" expanded="false" />
+            <element signature="e#13641#13642#0" expanded="false" />
+            <element signature="e#18267#18268#0" expanded="false" />
+            <element signature="e#18310#18311#0" expanded="false" />
+            <element signature="e#19369#19370#0" expanded="false" />
+            <element signature="e#19429#19430#0" expanded="false" />
+            <element signature="e#19844#19845#0" expanded="false" />
+            <element signature="e#19882#19883#0" expanded="false" />
+            <element signature="e#19949#19950#0" expanded="false" />
+            <element signature="e#19996#19997#0" expanded="false" />
+            <element signature="e#20040#20041#0" expanded="false" />
+            <element signature="e#20076#20077#0" expanded="false" />
+            <element signature="e#20134#20135#0" expanded="false" />
+            <element signature="e#20184#20185#0" expanded="false" />
+            <element signature="e#22427#22428#0" expanded="false" />
+            <element signature="e#22465#22466#0" expanded="false" />
+            <element signature="e#23807#23808#0" expanded="false" />
+            <element signature="e#23835#23836#0" expanded="false" />
+            <element signature="e#23878#23879#0" expanded="false" />
+            <element signature="e#23906#23907#0" expanded="false" />
+            <element signature="e#23939#23940#0" expanded="false" />
+            <element signature="e#23967#23968#0" expanded="false" />
+            <element signature="e#24005#24006#0" expanded="false" />
+            <element signature="e#24033#24034#0" expanded="false" />
+            <element signature="e#24068#24069#0" expanded="false" />
+            <element signature="e#24095#24096#0" expanded="false" />
+            <element signature="e#24940#24941#0" expanded="false" />
+            <element signature="e#24996#24997#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/IOUtils.java">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/util/ActionRunner.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state relative-caret-position="220">
+          <caret line="18" column="21" lean-forward="false" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/actionSystem/ToggleAction.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="15" column="22" lean-forward="false" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ToggleEbeanAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="616">
+          <caret line="47" column="26" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding>
+            <element signature="e#0#1936#0" expanded="false" />
             <element signature="imports" expanded="false" />
           </folding>
         </state>
@@ -1392,18 +1542,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean8/plugin/EbeanEnhancementTask.java">
+    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IdeaClassBytesReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="151" column="56" lean-forward="false" selection-start-line="151" selection-start-column="42" selection-end-line="151" selection-end-column="56" />
-          <folding />
+        <state relative-caret-position="88">
+          <caret line="21" column="9" lean-forward="false" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#6451#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="60" lean-forward="false" selection-start-line="12" selection-start-column="60" selection-end-line="12" selection-end-column="60" />
+        <state relative-caret-position="902">
+          <caret line="41" column="22" lean-forward="false" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ManifestReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="11" column="9" lean-forward="false" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+          <folding>
+            <element signature="e#1030#1031#0" expanded="false" />
+            <element signature="e#1076#1077#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanEnhancementTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="39" column="38" lean-forward="false" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
           <folding />
         </state>
       </provider>
@@ -1460,7 +1631,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>ebean8-idea-enhancer</last-edited>
+          <last-edited>ebean10-idea-enhancer</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1485,7 +1656,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>querybean-agent-8.2.1</last-edited>
+          <last-edited>querybean-agent-10.1.1</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

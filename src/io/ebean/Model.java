@@ -1,4 +1,4 @@
-package com.avaje.ebean;
+package io.ebean;
 
 public abstract class Model {
 }
