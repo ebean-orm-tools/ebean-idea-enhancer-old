@@ -160,7 +160,12 @@ class EbeanEnhancementTask {
       File file = entry.getValue();
 
       progressIndicator.setText2(className);
+
+      classBytesReader.setSearchScopeFromFile(file);
+
       processEnhancement(classLoader, transformer, className, file);
+
+      classBytesReader.setSearchScopeFromFile(null);
     }
 
     logInfo("Ebean enhancement done!");
