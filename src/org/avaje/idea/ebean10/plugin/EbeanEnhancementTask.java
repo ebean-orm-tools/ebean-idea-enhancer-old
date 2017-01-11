@@ -116,7 +116,7 @@ class EbeanEnhancementTask {
 
     Set<String> packages = new ManifestReader(compileContext).findManifests();
 
-    logInfo("Ebean 8.x enhancement started ... packages:" + packages+" debug:"+debugLevel);
+    logInfo("Ebean 10.x enhancement started ... packages:" + packages+" debug:"+debugLevel);
 
     ClassLoader outDirAwareClassLoader = buildClassLoader();
 
