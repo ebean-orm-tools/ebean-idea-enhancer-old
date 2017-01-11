@@ -24,12 +24,10 @@ import io.ebean.enhance.agent.Transformer;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ActionRunner;
-import com.intellij.util.containers.HashSet;
 import io.ebean.typequery.agent.CombinedTransform;
 import io.ebean.typequery.agent.QueryBeanTransformer;
 
@@ -37,14 +35,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.instrument.IllegalClassFormatException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import static io.ebean.enhance.agent.InputStreamTransform.readBytes;
 
 /**
  * This task actually hand all successfully compiled classes over to the Ebean weaver.
@@ -81,47 +74,14 @@ class EbeanEnhancementTask {
     }
   }
 
-  /**
-   * ClassLoader aware of the files being compiled by IDEA.
-   */
-  private class CompiledFilesAwareClassLoader extends URLClassLoader {
-
-    CompiledFilesAwareClassLoader(URL[] urls, ClassLoader parent) {
-      super(urls, parent);
-    }
-
-    @Override
-    public Class<?> loadClass(final String name) throws ClassNotFoundException {
-
-      try {
-        return super.loadClass(name);
-      } catch (ClassNotFoundException e) {
-        File f = compiledClasses.get(name);
-        if (f != null) {
-          try (FileInputStream fis = new FileInputStream(f)) {
-            byte[] x = readBytes(fis);
-            return defineClass(name, x, 0, x.length);
-
-          } catch (IOException ex) {
-            logError("Couldn't read file " + f);
-            throw new ClassNotFoundException("Could not load class "+name, ex);
-          }
-        }
-        throw new ClassNotFoundException("Could not find class "+name);
-      }
-    }
-  }
-
   private void doProcess() throws IOException, IllegalClassFormatException {
 
     Set<String> packages = new ManifestReader(compileContext).findManifests();
 
     logInfo("Ebean 10.x enhancement started ... packages:" + packages+" debug:"+debugLevel);
 
-    ClassLoader outDirAwareClassLoader = buildClassLoader();
-
     IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
-    IdeaClassLoader classLoader = new IdeaClassLoader(outDirAwareClassLoader, classBytesReader);
+    IdeaClassLoader classLoader = new IdeaClassLoader(getClass().getClassLoader(), classBytesReader);
 
     Transformer transformer = new Transformer(classBytesReader, "debug=" + debugLevel, null);
     QueryBeanTransformer queryBeanTransformer = new QueryBeanTransformer("debug=" + debugLevel, classLoader, packages);
@@ -164,25 +124,6 @@ class EbeanEnhancementTask {
     }
   }
 
-  /**
-   * Build the base classLoader. Ideally we have the "compile classpath" but we don't have that here.
-   * (Agents use classLoader to determine common super classes etc).
-   */
-  private CompiledFilesAwareClassLoader buildClassLoader() throws MalformedURLException {
-
-    Module[] modules = compileContext.getProjectCompileScope().getAffectedModules();
-
-    Set<URL> out = new HashSet<>();
-    for (Module module : modules) {
-      addFileSystemUrl(out, compileContext.getModuleOutputDirectory(module));
-      addFileSystemUrl(out, compileContext.getModuleOutputDirectoryForTests(module));
-    }
-
-    ClassLoader pluginClassLoader = this.getClass().getClassLoader();
-    URL[] urls = out.toArray(new URL[out.size()]);
-    return new CompiledFilesAwareClassLoader(urls, pluginClassLoader);
-  }
-
   private void logInfo(String msg) {
     compileContext.addMessage(CompilerMessageCategory.INFORMATION, msg, null, -1, -1);
   }
@@ -191,11 +132,6 @@ class EbeanEnhancementTask {
     compileContext.addMessage(CompilerMessageCategory.ERROR, msg, null, -1, -1);
   }
 
-  private void addFileSystemUrl(Set<URL> out, VirtualFile outDir) throws MalformedURLException {
-    if (outDir != null) {
-      out.add(new URL(outDir.getUrl()));
-    }
-  }
 
   /**
    * Write the transformed class bytes to the appropriate target classes file.
