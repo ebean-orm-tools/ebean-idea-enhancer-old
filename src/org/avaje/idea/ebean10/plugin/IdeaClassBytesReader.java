@@ -36,12 +36,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
 import net.jcip.annotations.NotThreadSafe;
 
 import static java.util.Collections.singleton;
+import static java.util.Optional.ofNullable;
 
 /**
  * Lookup a class file by given class name.
@@ -146,25 +148,35 @@ public class IdeaClassBytesReader implements ClassBytesReader {
   }
 
   void setSearchScopeFromFile(final File file) {
+    GlobalSearchScope searchScope = null;
     if (file != null) {
       VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(file);
       if (virtualFile != null) {
-        for (Module module : compileContext.getCompileScope().getAffectedModules()) {
-          Set<VirtualFile> mainRoot = singleton(compileContext.getModuleOutputDirectory(module));
-          if (VfsUtil.isUnder(virtualFile, mainRoot)) {
-            this.searchScope = module.getModuleWithDependenciesAndLibrariesScope(false);
-            return;
-          }
-          Set<VirtualFile> testRoot = singleton(compileContext.getModuleOutputDirectoryForTests(module));
-          if (VfsUtil.isUnder(virtualFile, testRoot)) {
-            this.searchScope = module.getModuleWithDependenciesAndLibrariesScope(true);
-            return;
-          }
+        searchScope = findModule(virtualFile);
+        if (searchScope == null) {
+          String className = virtualFile.getName().replaceAll("$.*", "");
+          searchScope = findModule(virtualFile.getParent().findChild(className + ".class"));
         }
       }
-      warn("Couldn't find the Module for file " + file);
+      if (searchScope == null) {
+        warn("Couldn't find the Module for file " + file);
+      }
     }
-    this.searchScope = globalSearchScope;
+    this.searchScope = ofNullable(searchScope).orElse(this.globalSearchScope);
+  }
+
+  private GlobalSearchScope findModule(final VirtualFile virtualFile) {
+    for (Module module : compileContext.getCompileScope().getAffectedModules()) {
+      Set<VirtualFile> mainRoot = singleton(compileContext.getModuleOutputDirectory(module));
+      if (VfsUtil.isUnder(virtualFile, mainRoot)) {
+        return module.getModuleWithDependenciesAndLibrariesScope(false);
+      }
+      Set<VirtualFile> testRoot = singleton(compileContext.getModuleOutputDirectoryForTests(module));
+      if (VfsUtil.isUnder(virtualFile, testRoot)) {
+        return module.getModuleWithDependenciesAndLibrariesScope(true);
+      }
+    }
+    return null;
   }
 
   @NotNull
