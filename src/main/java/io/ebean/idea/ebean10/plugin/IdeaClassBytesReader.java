@@ -29,6 +29,7 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.GlobalSearchScope;
 import io.ebean.enhance.common.ClassBytesReader;
 
@@ -102,9 +103,10 @@ public class IdeaClassBytesReader implements ClassBytesReader {
         return null;
       }
 
-      final VirtualFile containingFile = psiClass.getContainingFile().getVirtualFile();
-      if (containingFile == null) {
-        warn("Couldn't find containing file for PsiClass: " + psiClass);
+      final PsiFile psiClassContainingFile = psiClass.getContainingFile();
+      final VirtualFile containingFile = psiClassContainingFile.getVirtualFile();
+      if (containingFile == null || !"class".equals(psiClassContainingFile.getFileType().getDefaultExtension())) {
+        warn("Couldn't find containing class for PsiClass: " + psiClass);
         return null;
       }
 
