@@ -157,7 +157,10 @@ public class IdeaClassBytesReader implements ClassBytesReader {
         searchScope = findModule(virtualFile);
         if (searchScope == null) {
           String className = virtualFile.getName().replaceAll("$.*", "");
-          searchScope = findModule(virtualFile.getParent().findChild(className + ".class"));
+          final VirtualFile parentChild = virtualFile.getParent().findChild(className + ".class");
+          if (parentChild != null) {
+            searchScope = findModule(parentChild);
+          }
         }
       }
       if (searchScope == null) {
