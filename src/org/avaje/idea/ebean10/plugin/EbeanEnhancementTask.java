@@ -19,8 +19,6 @@
 
 package org.avaje.idea.ebean10.plugin;
 
-import io.ebean.enhance.agent.InputStreamTransform;
-import io.ebean.enhance.agent.Transformer;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
@@ -29,7 +27,8 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ActionRunner;
-import com.intellij.util.containers.HashSet;
+import io.ebean.enhance.agent.InputStreamTransform;
+import io.ebean.enhance.agent.Transformer;
 import io.ebean.typequery.agent.CombinedTransform;
 import io.ebean.typequery.agent.QueryBeanTransformer;
 
@@ -40,9 +39,8 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import static io.ebean.enhance.agent.InputStreamTransform.readBytes;
 
@@ -172,7 +170,7 @@ class EbeanEnhancementTask {
 
     Module[] modules = compileContext.getProjectCompileScope().getAffectedModules();
 
-    Set<URL> out = new HashSet<>();
+    List<URL> out = new ArrayList<>();
     for (Module module : modules) {
       addFileSystemUrl(out, compileContext.getModuleOutputDirectory(module));
       addFileSystemUrl(out, compileContext.getModuleOutputDirectoryForTests(module));
@@ -191,9 +189,13 @@ class EbeanEnhancementTask {
     compileContext.addMessage(CompilerMessageCategory.ERROR, msg, null, -1, -1);
   }
 
-  private void addFileSystemUrl(Set<URL> out, VirtualFile outDir) throws MalformedURLException {
+  private void addFileSystemUrl(List<URL> out, VirtualFile outDir) throws MalformedURLException {
     if (outDir != null) {
-      out.add(new URL(outDir.getUrl()));
+      String url = outDir.getUrl();
+
+      url = url.replace("file://", "file:/");
+
+      out.add(new URL(url));
     }
   }
 
