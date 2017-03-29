@@ -19,7 +19,6 @@
 
 package org.avaje.idea.ebean10.plugin;
 
-import io.ebean.enhance.agent.ClassBytesReader;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.module.Module;
@@ -28,6 +27,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.search.GlobalSearchScope;
+import io.ebean.enhance.common.ClassBytesReader;
 
 import java.io.File;
 import java.io.FileInputStream;

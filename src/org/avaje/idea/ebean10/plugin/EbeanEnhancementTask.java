@@ -19,19 +19,18 @@
 
 package org.avaje.idea.ebean10.plugin;
 
-import io.ebean.enhance.agent.InputStreamTransform;
-import io.ebean.enhance.agent.Transformer;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.TransactionGuard;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.ActionRunner;
 import com.intellij.util.containers.HashSet;
-import io.ebean.typequery.agent.CombinedTransform;
-import io.ebean.typequery.agent.QueryBeanTransformer;
+import io.ebean.enhance.Transformer;
+import io.ebean.enhance.common.InputStreamTransform;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,8 +43,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static io.ebean.enhance.agent.InputStreamTransform.readBytes;
-
 /**
  * This task actually hand all successfully compiled classes over to the Ebean weaver.
  *
@@ -54,7 +51,7 @@ import static io.ebean.enhance.agent.InputStreamTransform.readBytes;
  */
 class EbeanEnhancementTask {
 
-  private int debugLevel;
+  private int debugLevel = 0;
 
   private final CompileContext compileContext;
 
@@ -68,17 +65,17 @@ class EbeanEnhancementTask {
       try {
         debugLevel = Integer.parseInt(envDebug);
       } catch (NumberFormatException e) {
-        debugLevel = 2;
+        debugLevel = 0;
       }
     }
   }
 
-  void process() {
-    try {
-      ActionRunner.runInsideWriteAction(this::doProcess);
-    } catch (Exception e) {
-      logError(e.getClass().getName() + ":" + e.getMessage());
-    }
+  void process(Project project) {
+
+    TransactionGuard.getInstance()
+        .submitTransactionLater(project,
+            () -> ApplicationManager.getApplication().runWriteAction(
+                () -> performEnhancement()));
   }
 
   /**
@@ -98,8 +95,8 @@ class EbeanEnhancementTask {
       } catch (ClassNotFoundException e) {
         File f = compiledClasses.get(name);
         if (f != null) {
-          try (FileInputStream fis = new FileInputStream(f)) {
-            byte[] x = readBytes(fis);
+          try {
+            byte[] x = readFileBytes(f);
             return defineClass(name, x, 0, x.length);
 
           } catch (IOException ex) {
@@ -112,25 +109,28 @@ class EbeanEnhancementTask {
     }
   }
 
+  private void performEnhancement() {
+    try {
+      doProcess();
+    } catch (Exception e) {
+      logError(e.getClass().getName() + ":" + e.getMessage());
+    }
+  }
+
   private void doProcess() throws IOException, IllegalClassFormatException {
 
     Set<String> packages = new ManifestReader(compileContext).findManifests();
 
-    logInfo("Ebean 10.x enhancement started ... packages:" + packages+" debug:"+debugLevel);
+    logInfo("Ebean 10.x enhancement started, packages:" + packages+" debug:"+debugLevel);
 
     ClassLoader outDirAwareClassLoader = buildClassLoader();
 
     IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
     IdeaClassLoader classLoader = new IdeaClassLoader(outDirAwareClassLoader, classBytesReader);
 
-    Transformer transformer = new Transformer(classBytesReader, "debug=" + debugLevel, null);
-    QueryBeanTransformer queryBeanTransformer = new QueryBeanTransformer("debug=" + debugLevel, classLoader, packages);
-
-    CombinedTransform combinedTransform = new CombinedTransform(transformer, queryBeanTransformer);
+    Transformer transformer = new Transformer(classBytesReader, classLoader, "debug=" + debugLevel, packages);
 
     transformer.setLogout(msg -> logInfo(msg));
-
-    queryBeanTransformer.setMessageListener(msg -> logInfo(msg));
 
     ProgressIndicator progressIndicator = compileContext.getProgressIndicator();
     progressIndicator.setIndeterminate(true);
@@ -141,22 +141,20 @@ class EbeanEnhancementTask {
       File file = entry.getValue();
 
       progressIndicator.setText2(className);
-
-      ApplicationManager.getApplication().runWriteAction(() ->
-          processEnhancement(classLoader, combinedTransform, className, file));
+      processEnhancement(classLoader, transformer, className, file);
     }
 
     logInfo("Ebean enhancement done!");
   }
 
-  private void processEnhancement(IdeaClassLoader classLoader, CombinedTransform combinedTransform, String className, File file) {
+  private void processEnhancement(IdeaClassLoader classLoader, Transformer transformer, String className, File file) {
     try {
       byte[] origBytes = readFileBytes(file);
 
-      CombinedTransform.Response response = combinedTransform.transform(classLoader, className, null, null, origBytes);
-      if (response.isEnhanced()) {
-        writeTransformed(file, response.getClassBytes());
-        logInfo("enhanced: " + className + " type:" + (response.isFirst() ? " e" : "") + (response.isSecond() ? " q" : ""));
+      byte[] transformed = transformer.transform(classLoader, className, null, null, origBytes);
+      if (transformed != null) {
+        writeTransformed(file, transformed);
+        logInfo("enhanced: " + className);
       }
 
     } catch (Exception e) {

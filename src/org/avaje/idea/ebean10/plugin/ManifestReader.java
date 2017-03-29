@@ -9,7 +9,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import io.ebean.typequery.agent.AgentManifestReader;
+import io.ebean.enhance.querybean.AgentManifestReader;
 
 import java.io.IOException;
 import java.io.InputStream;

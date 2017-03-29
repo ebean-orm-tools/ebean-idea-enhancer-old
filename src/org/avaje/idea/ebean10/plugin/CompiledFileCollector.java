@@ -21,6 +21,8 @@ package org.avaje.idea.ebean10.plugin;
 
 import com.intellij.openapi.compiler.CompilationStatusListener;
 import com.intellij.openapi.compiler.CompileContext;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiDocumentManager;
 
 import java.io.File;
 import java.util.Collection;
@@ -91,7 +93,13 @@ public class CompiledFileCollector implements CompilationStatusListener {
       }
     }
 
-    new EbeanEnhancementTask(compileContext, asFileMap).process();
+    Project project = compileContext.getProject();
+    PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
+    if (psiDocumentManager.hasUncommitedDocuments()) {
+      psiDocumentManager.commitAllDocuments();
+    }
+
+    new EbeanEnhancementTask(compileContext, asFileMap).process(project);
     this.compiledClasses = new HashMap<>();
   }
 
