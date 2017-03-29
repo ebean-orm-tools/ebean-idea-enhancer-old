@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3b279c5b-e285-483b-83c4-06761f578741" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ebean10-idea-enhancer.iml" afterPath="$PROJECT_DIR$/ebean10-idea-enhancer.iml" />
     </list>
     <ignored path="ebean-idea-enhancer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,15 +24,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EbeanEnhancementTask.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EbeanEnhancementTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanEnhancementTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="142" column="44" lean-forward="false" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
+            <state relative-caret-position="3322">
+              <caret line="196" column="35" lean-forward="false" selection-start-line="196" selection-start-column="35" selection-end-line="196" selection-end-column="35" />
               <folding>
-                <element signature="e#0#7605#0" expanded="false" />
+                <element signature="e#0#7777#0" expanded="false" />
                 <element signature="imports" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="12" column="27" lean-forward="false" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -53,16 +62,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="4642">
               <caret line="212" column="14" lean-forward="false" selection-start-line="212" selection-start-column="14" selection-end-line="212" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ModalityState.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/application/ModalityState.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="12" column="28" lean-forward="false" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -186,9 +185,9 @@
         <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IOUtils.java" />
         <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IdeaClassBytesReader.java" />
         <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ManifestReader.java" />
-        <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/CompiledFileCollector.java" />
         <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanEnhancementTask.java" />
+        <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
       </list>
     </option>
   </component>
@@ -221,9 +220,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -266,6 +263,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1099,7 +1098,8 @@
       <workItem from="1490783036409" duration="173000" />
       <workItem from="1490783227917" duration="92000" />
       <workItem from="1490783340596" duration="621000" />
-      <workItem from="1490783984059" duration="114000" />
+      <workItem from="1490783984059" duration="640000" />
+      <workItem from="1490784647007" duration="173000" />
     </task>
     <task id="LOCAL-00001" summary="Initial add (based on copy from https://github.com/ykrasik/idea-ebean-enhancer)">
       <created>1432900070435</created>
@@ -1346,11 +1346,32 @@
       <option name="project" value="LOCAL" />
       <updated>1490784094951</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Push 10.1.6 ide files">
+      <created>1490784110725</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1490784110725</updated>
+    </task>
+    <task id="LOCAL-00037" summary="#14 Fix file url's resolving to a host">
+      <created>1490784797569</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1490784797569</updated>
+    </task>
+    <task id="LOCAL-00038" summary="#14 Fix file url's resolving to a host - pre built .zip">
+      <created>1490784818206</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1490784818206</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119626000" />
+    <option name="totallyTimeSpent" value="120325000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1920" height="1053" extended-state="6" />
@@ -1378,7 +1399,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3740458" sideWeight="0.49087983" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6586696" sideWeight="0.49785408" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45583424" sideWeight="0.49785408" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19604701" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1469,9 +1490,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="4.7.1 version of the plugin (with prebuilt zip)" />
-    <MESSAGE value="Just change to use LinkedHashMap to preserve ordering" />
-    <MESSAGE value="#1 - com.intellij.openapi.project.IndexNotReadyException" />
     <MESSAGE value="Version 4.7.1.10 - prebuilt plugin in zip form" />
     <MESSAGE value="Version 4.8.1 - prebuilt plugin in zip form, using agent 4.8.1" />
     <MESSAGE value="Update IDEA workspace.xml for 4.8.1" />
@@ -1494,7 +1512,10 @@
     <MESSAGE value="#12 Update agents to support Kotlin native query beans" />
     <MESSAGE value="#13 Write access is allowed from write-safe contexts only." />
     <MESSAGE value="Push 10.1.6 plugin zip" />
-    <option name="LAST_COMMIT_MESSAGE" value="Push 10.1.6 plugin zip" />
+    <MESSAGE value="Push 10.1.6 ide files" />
+    <MESSAGE value="#14 Fix file url's resolving to a host" />
+    <MESSAGE value="#14 Fix file url's resolving to a host - pre built .zip" />
+    <option name="LAST_COMMIT_MESSAGE" value="#14 Fix file url's resolving to a host - pre built .zip" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1704,14 +1725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="85" lean-forward="false" selection-start-line="12" selection-start-column="85" selection-end-line="12" selection-end-column="85" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/psi/PsiDocumentManager.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="616">
@@ -1723,7 +1736,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="12" column="28" lean-forward="false" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1823,12 +1835,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanEnhancementTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="142" column="44" lean-forward="false" selection-start-line="142" selection-start-column="44" selection-end-line="142" selection-end-column="44" />
+        <state relative-caret-position="3322">
+          <caret line="196" column="35" lean-forward="false" selection-start-line="196" selection-start-column="35" selection-end-line="196" selection-end-column="35" />
           <folding>
-            <element signature="e#0#7605#0" expanded="false" />
+            <element signature="e#0#7777#0" expanded="false" />
             <element signature="imports" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="12" column="27" lean-forward="false" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
