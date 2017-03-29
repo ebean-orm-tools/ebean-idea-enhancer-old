@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>org.avaje.ebean10.enhancer</id>
   <name>Ebean 10.x Enhancement</name>
-  <version>10.1.2</version>
+  <version>10.1.6</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave</vendor>
   <depends>com.intellij.modules.java</depends>
 
@@ -10,6 +10,8 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>10.1.6b</b> Fix issue with plugin not using write context<br>
+      <b>10.1.6</b> Bump to 10.1.6 agent (combined entity and query bean enhancement)<br>
       <b>10.1.2</b> Update agents to support Kotlin native query beans<br>
       <b>10.1.1</b> Built for Ebean 10.x (change package to io.ebean)<br>
       <b>8.2.2</b> Fix plugin issue with runWriteAction and bump to 8.2.2 of agent<br>
