@@ -28,8 +28,8 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.containers.HashSet;
 import io.ebean.enhance.Transformer;
+import io.ebean.enhance.common.AgentManifest;
 import io.ebean.enhance.common.InputStreamTransform;
 
 import java.io.File;
@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * This task actually hand all successfully compiled classes over to the Ebean weaver.
@@ -121,16 +120,20 @@ class EbeanEnhancementTask {
 
   private void doProcess() throws IOException, IllegalClassFormatException {
 
-    Set<String> packages = new ManifestReader(compileContext).findManifests();
+    AgentManifest manifest = new ManifestReader(compileContext).findManifests();
 
-    logInfo("Ebean 10.x enhancement started, packages:" + packages+" debug:"+debugLevel);
+    logInfo("Ebean 10.x enhancement started, packages - "
+        + " entity: " + manifest.getEntityPackages()
+        + " transaction: " + manifest.getTransactionalPackages()
+        + " queryBean: " + manifest.getQuerybeanPackages()
+        + " debug: "+debugLevel);
 
     ClassLoader outDirAwareClassLoader = buildClassLoader();
 
     IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
     IdeaClassLoader classLoader = new IdeaClassLoader(outDirAwareClassLoader, classBytesReader);
 
-    Transformer transformer = new Transformer(classBytesReader, classLoader, "debug=" + debugLevel, packages);
+    Transformer transformer = new Transformer(classBytesReader, "debug=" + debugLevel, manifest);
 
     transformer.setLogout(msg -> logInfo(msg));
 
@@ -152,6 +155,7 @@ class EbeanEnhancementTask {
   private void processEnhancement(IdeaClassLoader classLoader, Transformer transformer, String className, File file) {
     try {
       byte[] origBytes = readFileBytes(file);
+      className = className.replace('.', '/');
 
       byte[] transformed = transformer.transform(classLoader, className, null, null, origBytes);
       if (transformed != null) {
