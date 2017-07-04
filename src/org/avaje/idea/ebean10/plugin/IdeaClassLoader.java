@@ -49,7 +49,9 @@ public final class IdeaClassLoader extends ClassLoader {
         // load the raw bytes
         byte[] bytes = bytesReader.getClassBytes(name.replace('.', '/'), parent);
         if (bytes == null) {
-          throw new ClassNotFoundException(name);
+          // return null instead of exception - prevent errors in IntelliJ
+          return null;
+//          throw new ClassNotFoundException(name);
         }
 
         // define and cache

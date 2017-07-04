@@ -115,6 +115,11 @@ class EbeanEnhancementTask {
       doProcess();
     } catch (Exception e) {
       logError(e.getClass().getName() + ":" + e.getMessage());
+      // For debug
+//      for (StackTraceElement el : e.getStackTrace()) {
+//        logError(el.getClassName() + ":"+el.getMethodName() + ":"+el.getLineNumber());
+//      }
+
     }
   }
 
