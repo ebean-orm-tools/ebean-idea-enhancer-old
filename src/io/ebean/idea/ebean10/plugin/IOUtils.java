@@ -1,4 +1,4 @@
-package org.avaje.idea.ebean10.plugin;
+package io.ebean.idea.ebean10.plugin;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

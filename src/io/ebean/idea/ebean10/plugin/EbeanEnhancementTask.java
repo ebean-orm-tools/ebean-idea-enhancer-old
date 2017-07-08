@@ -17,7 +17,7 @@
  *     along with Ebean-idea-plugin.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.avaje.idea.ebean10.plugin;
+package io.ebean.idea.ebean10.plugin;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.TransactionGuard;
@@ -115,6 +115,11 @@ class EbeanEnhancementTask {
       doProcess();
     } catch (Exception e) {
       logError(e.getClass().getName() + ":" + e.getMessage());
+      // For debug
+//      for (StackTraceElement el : e.getStackTrace()) {
+//        logError(el.getClassName() + ":"+el.getMethodName() + ":"+el.getLineNumber());
+//      }
+
     }
   }
 

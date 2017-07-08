@@ -1,4 +1,4 @@
-package org.avaje.idea.ebean10.plugin;
+package io.ebean.idea.ebean10.plugin;
 
 
 import java.io.IOException;
@@ -49,7 +49,8 @@ public final class IdeaClassLoader extends ClassLoader {
         // load the raw bytes
         byte[] bytes = bytesReader.getClassBytes(name.replace('.', '/'), parent);
         if (bytes == null) {
-          throw new ClassNotFoundException(name);
+          // return null instead of exception - prevent errors in IntelliJ
+          return null;
         }
 
         // define and cache
