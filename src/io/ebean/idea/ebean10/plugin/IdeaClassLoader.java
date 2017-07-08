@@ -51,7 +51,6 @@ public final class IdeaClassLoader extends ClassLoader {
         if (bytes == null) {
           // return null instead of exception - prevent errors in IntelliJ
           return null;
-//          throw new ClassNotFoundException(name);
         }
 
         // define and cache

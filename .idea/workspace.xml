@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3b279c5b-e285-483b-83c4-06761f578741" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/io/ebean/ModelOld.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/io/ebean/bean/EntityBeanOld.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/CompiledFileCollector.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/CompiledFileCollector.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanActionComponent.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/EbeanActionComponent.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/EbeanEnhancementTask.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/EbeanEnhancementTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IOUtils.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IOUtils.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IdeaClassBytesReader.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IdeaClassBytesReader.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/IdeaClassLoader.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IdeaClassLoader.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ManifestReader.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/ManifestReader.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ToggleEbeanAction.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/ToggleEbeanAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ebean10-idea-enhancer.zip" afterPath="$PROJECT_DIR$/ebean10-idea-enhancer.zip" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IdeaClassLoader.java" afterPath="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IdeaClassLoader.java" />
     </list>
     <ignored path="ebean-idea-enhancer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,14 +27,16 @@
       <file leaf-file-name="EbeanEnhancementTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/EbeanEnhancementTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="36" column="27" lean-forward="false" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
-              <folding />
+            <state relative-caret-position="-2055">
+              <caret line="117" column="18" lean-forward="true" selection-start-line="117" selection-start-column="18" selection-end-line="117" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
@@ -82,6 +71,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
               <caret line="47" column="22" lean-forward="false" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IdeaClassLoader.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IdeaClassLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="257">
+              <caret line="53" column="9" lean-forward="true" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -157,6 +156,7 @@
         <option value="$PROJECT_DIR$/src/org/avaje/idea/ebean10/plugin/ManifestReader.java" />
         <option value="$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/compiler/CompileContext.class" />
         <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IdeaClassLoader.java" />
       </list>
     </option>
   </component>
@@ -947,7 +947,7 @@
       <workItem from="1499431359068" duration="2088000" />
       <workItem from="1499525233159" duration="468000" />
       <workItem from="1499525790406" duration="562000" />
-      <workItem from="1499527837900" duration="53000" />
+      <workItem from="1499527837900" duration="208000" />
     </task>
     <task id="LOCAL-00001" summary="Initial add (based on copy from https://github.com/ykrasik/idea-ebean-enhancer)">
       <created>1432900070435</created>
@@ -1261,7 +1261,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="145701000" />
+    <option name="totallyTimeSpent" value="145856000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1626,14 +1626,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IdeaClassLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="51" column="74" lean-forward="false" selection-start-line="51" selection-start-column="74" selection-end-line="51" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/compiler/CompileContext.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-117">
@@ -1715,14 +1707,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/io/ebean/bean/EntityBeanOld.java" />
-    <entry file="file://$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/EbeanEnhancementTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="36" column="27" lean-forward="false" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/io/ebean/ModelOld.java" />
     <entry file="file://$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/CompiledFileCollector.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1736,6 +1720,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/EbeanEnhancementTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2055">
+          <caret line="117" column="18" lean-forward="true" selection-start-line="117" selection-start-column="18" selection-end-line="117" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/ebean/idea/ebean10/plugin/IdeaClassLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="53" column="9" lean-forward="true" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
           <folding />
         </state>
       </provider>
