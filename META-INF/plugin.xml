@@ -2,7 +2,7 @@
   <id>org.avaje.ebean10.enhancer</id>
   <name>Ebean 10.x Enhancement</name>
   <version>10.3.2</version>
-  <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave</vendor>
+  <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave, Victor Nikiforov</vendor>
   <depends>com.intellij.modules.java</depends>
 
   <description><![CDATA[
@@ -10,7 +10,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      <b>10.3.2</b> Fix crashes in IntelliJ <br>
+      <b>10.3.2</b> Fix crashes in IntelliJ, rename packages to io.ebean <br>
       <b>10.3.1</b> Bump to 10.3.1 agent <br>
       <b>10.2.1</b> #51 - Support extended ebean.mf file <br>
       <b>10.1.6c</b> #14 - Fix file url's resolving to a host <br>
@@ -48,18 +48,18 @@
 
   <project-components>
     <component>
-      <implementation-class>org.avaje.idea.ebean10.plugin.EbeanActionComponent</implementation-class>
-      <interface-class>org.avaje.idea.ebean10.plugin.EbeanActionComponent</interface-class>
+      <implementation-class>io.ebean.idea.ebean10.plugin.EbeanActionComponent</implementation-class>
+      <interface-class>io.ebean.idea.ebean10.plugin.EbeanActionComponent</interface-class>
       <!-- For configuration save in iws files -->
       <option name="workspace" value="true"/>
     </component>
   </project-components>
 
   <actions>
-    <action class="org.avaje.idea.ebean10.plugin.ToggleEbeanAction"
+    <action class="io.ebean.idea.ebean10.plugin.ToggleEbeanAction"
             text="Ebean 10.x Enhancement"
             description="Ebean 10.x enhancement - http://ebean-orm.github.io/"
-            id="org.avaje.idea.ebean10.plugin.ToggleEbeanAction">
+            id="io.ebean.idea.ebean10.plugin.ToggleEbeanAction">
       <add-to-group anchor="after" group-id="BuildMenu" relative-to-action="Compile"/>
       <add-to-group anchor="after" group-id="ProjectViewPopupMenu" relative-to-action="Compile"/>
     </action>
