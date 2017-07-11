@@ -1,4 +1,4 @@
-package org.avaje.idea.ebean10.plugin;
+package io.ebean.idea.ebean10.plugin;
 
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;

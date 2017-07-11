@@ -17,7 +17,7 @@
  *     along with Ebean-idea-plugin.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.avaje.idea.ebean10.plugin;
+package io.ebean.idea.ebean10.plugin;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.ToggleAction;
