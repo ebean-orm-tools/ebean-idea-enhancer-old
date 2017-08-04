@@ -28,6 +28,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiDocumentManager;
 import io.ebean.enhance.Transformer;
 import io.ebean.enhance.common.AgentManifest;
 import io.ebean.enhance.common.InputStreamTransform;
@@ -71,7 +72,9 @@ class EbeanEnhancementTask {
     }
   }
 
-  void process(Project project) {
+  void process() {
+
+    Project project = compileContext.getProject();
 
     TransactionGuard.getInstance()
         .submitTransactionLater(project,
@@ -112,6 +115,12 @@ class EbeanEnhancementTask {
 
   private void performEnhancement() {
     try {
+      Project project = compileContext.getProject();
+      PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
+      if (psiDocumentManager.hasUncommitedDocuments()) {
+        psiDocumentManager.commitAllDocuments();
+      }
+
       doProcess();
     } catch (Exception e) {
       logError(e.getClass().getName() + ":" + e.getMessage());

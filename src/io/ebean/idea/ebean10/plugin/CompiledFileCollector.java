@@ -93,13 +93,7 @@ public class CompiledFileCollector implements CompilationStatusListener {
       }
     }
 
-    Project project = compileContext.getProject();
-    PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
-    if (psiDocumentManager.hasUncommitedDocuments()) {
-      psiDocumentManager.commitAllDocuments();
-    }
-
-    new EbeanEnhancementTask(compileContext, asFileMap).process(project);
+    new EbeanEnhancementTask(compileContext, asFileMap).process();
     this.compiledClasses = new HashMap<>();
   }
 
