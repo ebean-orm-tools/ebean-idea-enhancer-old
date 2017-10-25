@@ -1,0 +1,41 @@
+plugins {
+    id "net.researchgate.release" version "2.4.0"
+    id "org.jetbrains.intellij" version "0.2.17"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "io.ebean:ebean-agent:11.1.1"
+    //testCompile 'junit:junit:4.11'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
+}
+
+intellij {
+    pluginName 'ebean-idea-enhancer'
+    version 'IC-2017.1.5'
+    updateSinceUntilBuild
+}
+
+patchPluginXml {
+    sinceBuild '131'
+    untilBuild ''
+}
+
+
+publishPlugin {
+    username project.property("intellij.username") ?: "none"
+    password project.property("intellij.password") ?: "none"
+    channels 'nightly'
+}
+
+build.dependsOn patchPluginXml
+
+if (project.hasProperty("withUpload")) {
+    afterReleaseBuild.dependsOn publishPlugin
+}
