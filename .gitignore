@@ -1,5 +1,6 @@
 *.class
 .idea/
+ebean11*.iml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
