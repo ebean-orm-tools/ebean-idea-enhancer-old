@@ -19,7 +19,7 @@ public final class IdeaClassLoader extends ClassLoader {
   /**
    * Local cache of defined classes.
    */
-  private final ConcurrentHashMap<String, Class<?>> definedClasses = new ConcurrentHashMap<>();
+  private final ConcurrentHashMap<String, Class<?>> classCache = new ConcurrentHashMap<>();
 
   private final ClassLoader parent;
 
@@ -36,33 +36,22 @@ public final class IdeaClassLoader extends ClassLoader {
   protected Class<?> findClass(final String name) throws ClassNotFoundException {
     try {
       return super.findClass(name);
-
     } catch (ClassNotFoundException e) {
-
-      synchronized (this) {
-        Class<?> aClass = definedClasses.get(name);
-        if (aClass != null) {
-          // return cache hit
-          return aClass;
-        }
-
-        // load the raw bytes
-        byte[] bytes = bytesReader.getClassBytes(name.replace('.', '/'), parent);
-        if (bytes == null) {
-          // return null instead of exception - prevent errors in IntelliJ
-          return null;
-        }
-
-        // define and cache
-        aClass = defineClass(name, bytes, 0, bytes.length);
-        definedClasses.put(name, aClass);
-        return aClass;
-      }
+      return classCache.computeIfAbsent(name, this::readClass);
     }
   }
 
   @Override
   public Enumeration<URL> getResources(String name) throws IOException {
     return super.getResources(name);
+  }
+
+  private Class<?> readClass(String className) {
+    byte[] bytes = bytesReader.getClassBytes(className.replace('.', '/'), parent);
+    if (bytes == null) {
+      // return null instead of exception - prevent errors in IntelliJ
+      return null;
+    }
+    return defineClass(className, bytes, 0, bytes.length);
   }
 }
