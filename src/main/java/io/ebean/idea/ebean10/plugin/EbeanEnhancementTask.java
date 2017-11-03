@@ -79,7 +79,7 @@ class EbeanEnhancementTask {
     TransactionGuard.getInstance()
         .submitTransactionLater(project,
             () -> ApplicationManager.getApplication().runWriteAction(
-                () -> performEnhancement()));
+              this::performEnhancement));
   }
 
   /**
@@ -149,7 +149,7 @@ class EbeanEnhancementTask {
 
     Transformer transformer = new Transformer(classBytesReader, "debug=" + debugLevel, manifest);
 
-    transformer.setLogout(msg -> logInfo(msg));
+    transformer.setLogout(this::logInfo);
 
     ProgressIndicator progressIndicator = compileContext.getProgressIndicator();
     progressIndicator.setIndeterminate(true);
