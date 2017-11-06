@@ -1,9 +1,6 @@
 package io.ebean.idea.ebean10.plugin;
 
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -39,11 +36,6 @@ public final class IdeaClassLoader extends ClassLoader {
     } catch (ClassNotFoundException e) {
       return classCache.computeIfAbsent(name, this::readClass);
     }
-  }
-
-  @Override
-  public Enumeration<URL> getResources(String name) throws IOException {
-    return super.getResources(name);
   }
 
   private Class<?> readClass(String className) {
