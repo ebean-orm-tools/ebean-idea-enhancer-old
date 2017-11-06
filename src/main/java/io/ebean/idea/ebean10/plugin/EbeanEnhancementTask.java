@@ -220,8 +220,10 @@ class EbeanEnhancementTask {
       if (outDir.isDirectory() && !url.endsWith("/")) {
         url = url + "/";
       }
-      // take into account windows file system
-      url = url.replace("file://", "file:/");
+      if ('\\' == File.separatorChar) {
+        // take into account windows file system
+        url = url.replace("file://", "file:/");
+      }
       out.add(new URL(url));
     }
   }
