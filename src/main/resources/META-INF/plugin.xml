@@ -36,8 +36,8 @@
 
   <actions>
     <action class="io.ebean.idea.ebean10.plugin.ToggleEbeanAction"
-            text="Ebean 11.x Enhancement"
-            description="Ebean 11.x enhancement - http://ebean-orm.github.io/"
+            text="Ebean 11.4+ Enhancement"
+            description="Ebean 11.4+ enhancement - http://ebean-orm.github.io/"
             id="io.ebean.idea.ebean10.plugin.ToggleEbeanAction">
       <add-to-group anchor="after" group-id="BuildMenu" relative-to-action="Compile"/>
       <add-to-group anchor="after" group-id="ProjectViewPopupMenu" relative-to-action="Compile"/>

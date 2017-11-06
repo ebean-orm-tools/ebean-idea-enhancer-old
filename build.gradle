@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    compile "io.ebean:ebean-agent:11.3.2"
+    compile "io.ebean:ebean-agent:11.4.1"
     //testCompile 'junit:junit:4.11'
 }
 
