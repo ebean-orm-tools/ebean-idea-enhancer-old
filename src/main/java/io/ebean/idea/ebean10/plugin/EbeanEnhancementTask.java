@@ -217,6 +217,9 @@ class EbeanEnhancementTask {
   private void addFileSystemUrl(List<URL> out, VirtualFile outDir) throws MalformedURLException {
     if (outDir != null) {
       String url = outDir.getUrl();
+      if (outDir.isDirectory() && !url.endsWith("/")) {
+        url = url + "/";
+      }
       // take into account windows file system
       url = url.replace("file://", "file:/");
       out.add(new URL(url));
