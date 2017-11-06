@@ -21,8 +21,6 @@ package io.ebean.idea.ebean10.plugin;
 
 import com.intellij.openapi.compiler.CompilationStatusListener;
 import com.intellij.openapi.compiler.CompileContext;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDocumentManager;
 
 import java.io.File;
 import java.util.Collection;
