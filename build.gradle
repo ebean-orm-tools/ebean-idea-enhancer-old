@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    compile "io.ebean:ebean-agent:11.4.1"
+    compile "io.ebean:ebean-agent:11.5.1"
     //testCompile 'junit:junit:4.11'
 }
 
@@ -27,6 +27,10 @@ patchPluginXml {
     untilBuild ''
 }
 
+compileJava   {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
 
 publishPlugin {
     username project.property("intellij.username") ?: "none"

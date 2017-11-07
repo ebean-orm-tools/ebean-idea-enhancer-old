@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.avaje.ebean11.enhancer</id>
   <name>Ebean 11.x Enhancement</name>
-  <version>11.1.1</version>
+  <version>11.5.1</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave, Victor Nikiforov</vendor>
   <depends>com.intellij.modules.java</depends>
 
@@ -10,6 +10,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>11.5.1</b> Ebean 11.5.x enhancement with Java9 bytecode support<br>
       <b>11.1.1</b> Ebean 11.x enhancement (improvements to @Transactional) <br>
     ]]>
   </change-notes>
@@ -36,8 +37,8 @@
 
   <actions>
     <action class="io.ebean.idea.ebean10.plugin.ToggleEbeanAction"
-            text="Ebean 11.4+ Enhancement"
-            description="Ebean 11.4+ enhancement - http://ebean-orm.github.io/"
+            text="Ebean 11.5+ Enhancement"
+            description="Ebean 11.5+ enhancement - http://ebean-orm.github.io/"
             id="io.ebean.idea.ebean10.plugin.ToggleEbeanAction">
       <add-to-group anchor="after" group-id="BuildMenu" relative-to-action="Compile"/>
       <add-to-group anchor="after" group-id="ProjectViewPopupMenu" relative-to-action="Compile"/>

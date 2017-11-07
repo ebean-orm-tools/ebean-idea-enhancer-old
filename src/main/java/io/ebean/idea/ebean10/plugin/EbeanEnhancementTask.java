@@ -136,7 +136,7 @@ class EbeanEnhancementTask {
 
     AgentManifest manifest = new ManifestReader(compileContext).findManifests();
 
-    logInfo("Ebean 10.x enhancement started, packages - "
+    logInfo("Ebean 11+ enhancement started, packages - "
         + " entity: " + manifest.getEntityPackages()
         + " transaction: " + manifest.getTransactionalPackages()
         + " queryBean: " + manifest.getQuerybeanPackages()
