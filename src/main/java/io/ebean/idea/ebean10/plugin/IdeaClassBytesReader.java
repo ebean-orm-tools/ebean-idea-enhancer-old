@@ -93,7 +93,7 @@ public class IdeaClassBytesReader implements ClassBytesReader {
 
   private byte[] lookupClassBytesFallback(String classNamePath) {
     // Create a Psi compatible className
-    final String className = convertToClassNamePath(classNamePath);
+    final String className = convertToClassName(classNamePath);
     try {
 
       final PsiClass psiClass = psiFacade.findClass(className, searchScope);
@@ -184,7 +184,7 @@ public class IdeaClassBytesReader implements ClassBytesReader {
   }
 
   @NotNull
-  private String convertToClassNamePath(final String className) {
+  private String convertToClassName(final String className) {
     return className.replace('/', '.').replace('$', '.');
   }
 }
