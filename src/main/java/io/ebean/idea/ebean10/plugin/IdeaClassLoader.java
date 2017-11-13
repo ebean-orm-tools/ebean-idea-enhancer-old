@@ -1,6 +1,10 @@
 package io.ebean.idea.ebean10.plugin;
 
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -31,10 +35,25 @@ public final class IdeaClassLoader extends ClassLoader {
 
   @Override
   protected Class<?> findClass(final String name) throws ClassNotFoundException {
-    try {
-      return super.findClass(name);
-    } catch (ClassNotFoundException e) {
-      return classCache.computeIfAbsent(name, this::readClass);
+    final Class<?> aClass = classCache.computeIfAbsent(name, this::readClass);
+    if (aClass == null) {
+      throw new ClassNotFoundException();
+    }
+    return aClass;
+  }
+
+  @Override
+  protected Enumeration<URL> findResources(final String name) throws IOException {
+    return Collections.enumeration(Collections.singleton(findResource(name)));
+  }
+
+  @Override
+  protected URL findResource(final String name) {
+    final byte[] bytes = bytesReader.getClassBytes(name.replaceAll("\\.class$", ""), parent);
+    if (bytes != null) {
+      return IOUtils.byteArrayToURL(bytes);
+    } else {
+      return null;
     }
   }
 

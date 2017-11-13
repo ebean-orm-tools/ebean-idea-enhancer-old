@@ -1,9 +1,15 @@
 package io.ebean.idea.ebean10.plugin;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
 
 /**
  * Utilities for IO.
@@ -47,6 +53,31 @@ class IOUtils {
       }
     } finally {
       out.close();
+    }
+  }
+
+  static URL byteArrayToURL(final byte[] bytes) {
+    try {
+      return new URL(null, "foobar://foo/bar", new URLStreamHandler() {
+        @Override
+        protected URLConnection openConnection(final URL u) throws IOException {
+          final ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+
+          return new URLConnection(null) {
+
+            @Override
+            public void connect() throws IOException {
+            }
+
+            @Override
+            public InputStream getInputStream() throws IOException {
+              return bais;
+            }
+          };
+        }
+      });
+    } catch (MalformedURLException e) {
+      throw new UncheckedIOException(e);
     }
   }
 }
