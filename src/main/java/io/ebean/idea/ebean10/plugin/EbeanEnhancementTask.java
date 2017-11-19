@@ -79,7 +79,7 @@ class EbeanEnhancementTask {
     TransactionGuard.getInstance()
         .submitTransactionLater(project,
             () -> ApplicationManager.getApplication().runWriteAction(
-                () -> performEnhancement()));
+              this::performEnhancement));
   }
 
   /**
@@ -149,7 +149,7 @@ class EbeanEnhancementTask {
 
     Transformer transformer = new Transformer(classBytesReader, "debug=" + debugLevel, manifest);
 
-    transformer.setLogout(msg -> logInfo(msg));
+    transformer.setLogout(this::logInfo);
 
     ProgressIndicator progressIndicator = compileContext.getProgressIndicator();
     progressIndicator.setIndeterminate(true);
@@ -160,7 +160,12 @@ class EbeanEnhancementTask {
       File file = entry.getValue();
 
       progressIndicator.setText2(className);
+
+      classBytesReader.setSearchScopeFromFile(file);
+
       processEnhancement(classLoader, transformer, className, file);
+
+      classBytesReader.setSearchScopeFromFile(null);
     }
 
     logInfo("Ebean enhancement done!");
@@ -212,8 +217,13 @@ class EbeanEnhancementTask {
   private void addFileSystemUrl(List<URL> out, VirtualFile outDir) throws MalformedURLException {
     if (outDir != null) {
       String url = outDir.getUrl();
-      // take into account windows file system
-      url = url.replace("file://", "file:/");
+      if (outDir.isDirectory() && !url.endsWith("/")) {
+        url = url + "/";
+      }
+      if ('\\' == File.separatorChar) {
+        // take into account windows file system
+        url = url.replace("file://", "file:/");
+      }
       out.add(new URL(url));
     }
   }
