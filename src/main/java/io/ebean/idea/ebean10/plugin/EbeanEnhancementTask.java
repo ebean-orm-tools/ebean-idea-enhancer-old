@@ -74,12 +74,14 @@ class EbeanEnhancementTask {
 
   void process() {
 
-    Project project = compileContext.getProject();
+    if (!compiledClasses.isEmpty()) {
+      Project project = compileContext.getProject();
 
-    TransactionGuard.getInstance()
-        .submitTransactionLater(project,
-            () -> ApplicationManager.getApplication().runWriteAction(
-              this::performEnhancement));
+      TransactionGuard.getInstance()
+          .submitTransactionLater(project,
+              () -> ApplicationManager.getApplication().runWriteAction(
+                  this::performEnhancement));
+    }
   }
 
   /**
@@ -140,7 +142,7 @@ class EbeanEnhancementTask {
         + " entity: " + manifest.getEntityPackages()
         + " transaction: " + manifest.getTransactionalPackages()
         + " queryBean: " + manifest.getQuerybeanPackages()
-        + " debug: "+debugLevel);
+        + " debug: " + debugLevel + " v:1161");
 
     ClassLoader outDirAwareClassLoader = buildClassLoader();
 

@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.avaje.ebean11.enhancer</id>
   <name>Ebean 11.x Enhancement</name>
-  <version>11.5.1</version>
+  <version>11.5.2</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave, Victor Nikiforov</vendor>
   <depends>com.intellij.modules.java</depends>
 
@@ -10,6 +10,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>11.5.2</b> Use module search scope for finding classes<br>
       <b>11.5.1</b> Ebean 11.5.x enhancement with Java9 bytecode support<br>
       <b>11.1.1</b> Ebean 11.x enhancement (improvements to @Transactional) <br>
     ]]>
