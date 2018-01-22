@@ -31,12 +31,13 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import io.ebean.enhance.Transformer;
 import io.ebean.enhance.common.AgentManifest;
+import io.ebean.enhance.common.ClassMetaCache;
+import io.ebean.enhance.common.EnhanceContext;
 import io.ebean.enhance.common.InputStreamTransform;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.instrument.IllegalClassFormatException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -55,11 +56,14 @@ class EbeanEnhancementTask {
 
   private int debugLevel = 0;
 
+  private final ClassMetaCache metaCache;
+
   private final CompileContext compileContext;
 
   private final Map<String, File> compiledClasses;
 
-  EbeanEnhancementTask(CompileContext compileContext, Map<String, File> compiledClasses) {
+  EbeanEnhancementTask(ClassMetaCache metaCache, CompileContext compileContext, Map<String, File> compiledClasses) {
+    this.metaCache = metaCache;
     this.compileContext = compileContext;
     this.compiledClasses = compiledClasses;
     String envDebug = System.getProperty("ebean_idea_debug");
@@ -134,7 +138,7 @@ class EbeanEnhancementTask {
     }
   }
 
-  private void doProcess() throws IOException, IllegalClassFormatException {
+  private void doProcess() throws IOException {
 
     AgentManifest manifest = new ManifestReader(compileContext).findManifests();
 
@@ -142,14 +146,17 @@ class EbeanEnhancementTask {
         + " entity: " + manifest.getEntityPackages()
         + " transaction: " + manifest.getTransactionalPackages()
         + " queryBean: " + manifest.getQuerybeanPackages()
-        + " debug: " + debugLevel + " v:1161");
+        + " debug: " + debugLevel + " v:1191 files:" + compiledClasses.size()+ " profileLocation:"+ manifest.isEnableProfileLocation());
 
     ClassLoader outDirAwareClassLoader = buildClassLoader();
 
-    IdeaClassBytesReader classBytesReader = new IdeaClassBytesReader(compileContext, compiledClasses);
-    IdeaClassLoader classLoader = new IdeaClassLoader(outDirAwareClassLoader, classBytesReader);
+    IdeaClassBytesReader reader = new IdeaClassBytesReader(compileContext, compiledClasses);
+    IdeaClassLoader classLoader = new IdeaClassLoader(outDirAwareClassLoader, reader);
 
-    Transformer transformer = new Transformer(classBytesReader, "debug=" + debugLevel, manifest);
+    EnhanceContext enhanceContext = new EnhanceContext(reader, "debug=" + debugLevel, manifest, metaCache);
+    enhanceContext.setThrowOnError(true);
+
+    Transformer transformer = new Transformer(enhanceContext);
 
     transformer.setLogout(this::logInfo);
 
@@ -157,20 +164,22 @@ class EbeanEnhancementTask {
     progressIndicator.setIndeterminate(true);
     progressIndicator.setText("Ebean enhancement");
 
-    for (Entry<String, File> entry : compiledClasses.entrySet()) {
-      String className = entry.getKey();
-      File file = entry.getValue();
+    try {
+      for (Entry<String, File> entry : compiledClasses.entrySet()) {
+        String className = entry.getKey();
+        File file = entry.getValue();
 
-      progressIndicator.setText2(className);
+        progressIndicator.setText2(className);
+        reader.setSearchScopeFromFile(file);
+        processEnhancement(classLoader, transformer, className, file);
+        reader.setSearchScopeFromFile(null);
+      }
 
-      classBytesReader.setSearchScopeFromFile(file);
-
-      processEnhancement(classLoader, transformer, className, file);
-
-      classBytesReader.setSearchScopeFromFile(null);
+      metaCache.setFallback();
+      logInfo("Ebean enhancement done!  fbHits:" + metaCache.getFallbackHits() + " fbKeys:" + metaCache.fallbackKeys());
+    } catch (Throwable e) {
+      logError("Exception trying to enhance. Please try Build -> Rebuild Project, error:" + e.getMessage());
     }
-
-    logInfo("Ebean enhancement done!");
   }
 
   private void processEnhancement(IdeaClassLoader classLoader, Transformer transformer, String className, File file) {
@@ -185,7 +194,7 @@ class EbeanEnhancementTask {
       }
 
     } catch (Exception e) {
-      logError("Exception trying to enhance:" + className + " error:" + e.getMessage());
+      logError("Exception trying to enhance:" + className + " Please try Build -> Rebuild Project, error:" + e.getMessage());
     }
   }
 

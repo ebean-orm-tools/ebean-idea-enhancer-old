@@ -4,11 +4,12 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    compile "io.ebean:ebean-agent:11.5.1"
+    compile "io.ebean:ebean-agent:11.9.1"
     //testCompile 'junit:junit:4.11'
 }
 

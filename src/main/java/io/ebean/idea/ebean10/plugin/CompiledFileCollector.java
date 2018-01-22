@@ -21,6 +21,7 @@ package io.ebean.idea.ebean10.plugin;
 
 import com.intellij.openapi.compiler.CompilationStatusListener;
 import com.intellij.openapi.compiler.CompileContext;
+import io.ebean.enhance.common.ClassMetaCache;
 
 import java.io.File;
 import java.util.Collection;
@@ -34,6 +35,8 @@ import java.util.Map;
 public class CompiledFileCollector implements CompilationStatusListener {
 
   private Map<String, CompiledFile> compiledClasses = new HashMap<>();
+
+  private final ClassMetaCache metaCache = new ClassMetaCache();
 
   @Override
   public void fileGenerated(String outputRoot, String relativePath) {
@@ -91,7 +94,7 @@ public class CompiledFileCollector implements CompilationStatusListener {
       }
     }
 
-    new EbeanEnhancementTask(compileContext, asFileMap).process();
+    new EbeanEnhancementTask(metaCache, compileContext, asFileMap).process();
     this.compiledClasses = new HashMap<>();
   }
 

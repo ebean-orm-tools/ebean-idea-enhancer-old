@@ -72,8 +72,8 @@ public class IdeaClassBytesReader implements ClassBytesReader {
   public byte[] getClassBytes(String classNamePath, ClassLoader classLoader) {
 
     // Try to fetch the class from the list of files that we know was compiled during this run.
-    final String className = classNamePath.replace('/', '.');
-    final File compiledFile = compiledClasses.get(className);
+    String className = classNamePath.replace('/', '.');
+    File compiledFile = compiledClasses.get(className);
 
     if (compiledFile != null) {
       try {
@@ -93,23 +93,22 @@ public class IdeaClassBytesReader implements ClassBytesReader {
 
   private byte[] lookupClassBytesFallback(String classNamePath) {
     // Create a Psi compatible className
-    final String className = convertToClassName(classNamePath);
+    String className = convertToClassName(classNamePath);
     try {
-
-      final PsiClass psiClass = psiFacade.findClass(className, searchScope);
+      PsiClass psiClass = psiFacade.findClass(className, searchScope);
       if (psiClass == null) {
         warn("Couldn't find PsiClass for class: " + className);
         return null;
       }
 
-      final PsiFile psiClassContainingFile = psiClass.getContainingFile();
-      final VirtualFile containingFile = psiClassContainingFile.getVirtualFile();
+      PsiFile psiClassContainingFile = psiClass.getContainingFile();
+      VirtualFile containingFile = psiClassContainingFile.getVirtualFile();
       if (containingFile == null || !"class".equals(psiClassContainingFile.getFileType().getDefaultExtension())) {
         warn("Couldn't find containing class for PsiClass: " + psiClass);
         return null;
       }
 
-      final VirtualFile classFile = getClassFileRelativeContainingFile(containingFile, classNamePath, psiClass, className);
+      VirtualFile classFile = getClassFileRelativeContainingFile(containingFile, classNamePath, psiClass, className);
       if (classFile == null) {
         warn("Couldn't find .class file for class: " + className);
         return null;
@@ -132,7 +131,7 @@ public class IdeaClassBytesReader implements ClassBytesReader {
     ProjectFileIndex projectFileIndex = ProjectFileIndex.getInstance(psiClass.getProject());
     VirtualFile classRootForFile = projectFileIndex.getClassRootForFile(containingFile);
     if (classRootForFile == null) {
-      warn("Couldn't find class root '" + className + "' in project file index.");
+      info("Probably using incremental compile - Couldn't find class root '" + className + "' in project file index, will try fallback.");
       return containingFile;
     }
     VirtualFile fileByRelativePath = classRootForFile.findFileByRelativePath(classNamePath + ".class");
@@ -144,8 +143,16 @@ public class IdeaClassBytesReader implements ClassBytesReader {
   }
 
   private void warn(String message) {
+    message("WARN: ", message);
+  }
+
+  private void info(String message) {
+    message("Info: ", message);
+  }
+
+  private void message(String prefix, String message) {
     // warning level messages not showing in Messages so using INFORMATION here
-    compileContext.addMessage(CompilerMessageCategory.INFORMATION, "WARN: " + message, null, -1, -1);
+    compileContext.addMessage(CompilerMessageCategory.INFORMATION, prefix + message, null, -1, -1);
   }
 
   void setSearchScopeFromFile(final File file) {
