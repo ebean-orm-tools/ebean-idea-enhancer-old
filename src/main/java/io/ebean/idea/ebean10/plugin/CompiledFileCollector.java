@@ -76,8 +76,16 @@ public class CompiledFileCollector implements CompilationStatusListener {
   }
 
   @Override
-  public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
+  public void automakeCompilationFinished(int errors, int warnings, CompileContext compileContext) {
+    process(compileContext);
+  }
 
+  @Override
+  public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
+    process(compileContext);
+  }
+
+  private void process(CompileContext compileContext) {
 
     Map<String,File> asFileMap = new LinkedHashMap<>();
 

@@ -23,9 +23,11 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.TransactionGuard;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
@@ -42,6 +44,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -54,213 +57,191 @@ import java.util.Map.Entry;
  */
 class EbeanEnhancementTask {
 
-  private int debugLevel = 0;
+	private static final Logger log = Logger.getInstance("io.ebean");
 
-  private final ClassMetaCache metaCache;
+	private final ClassMetaCache metaCache;
 
-  private final CompileContext compileContext;
+	private final CompileContext compileContext;
 
-  private final Map<String, File> compiledClasses;
+	private final Map<String, File> compiledClasses;
 
-  EbeanEnhancementTask(ClassMetaCache metaCache, CompileContext compileContext, Map<String, File> compiledClasses) {
-    this.metaCache = metaCache;
-    this.compileContext = compileContext;
-    this.compiledClasses = compiledClasses;
-    String envDebug = System.getProperty("ebean_idea_debug");
-    if (envDebug != null) {
-      try {
-        debugLevel = Integer.parseInt(envDebug);
-      } catch (NumberFormatException e) {
-        debugLevel = 0;
-      }
-    }
-  }
+	EbeanEnhancementTask(ClassMetaCache metaCache, CompileContext compileContext, Map<String, File> compiledClasses) {
+		this.metaCache = metaCache;
+		this.compileContext = compileContext;
+		this.compiledClasses = compiledClasses;
+	}
 
-  void process() {
+	void process() {
 
-    if (!compiledClasses.isEmpty()) {
-      Project project = compileContext.getProject();
+		if (!compiledClasses.isEmpty()) {
+			Project project = compileContext.getProject();
 
-      TransactionGuard.getInstance()
-          .submitTransactionLater(project,
-              () -> ApplicationManager.getApplication().runWriteAction(
-                  this::performEnhancement));
-    }
-  }
+			TransactionGuard.getInstance()
+					.submitTransactionLater(project,
+							() -> ApplicationManager.getApplication().runWriteAction(
+									this::performEnhancement));
+		}
+	}
 
-  /**
-   * ClassLoader aware of the files being compiled by IDEA.
-   */
-  private class CompiledFilesAwareClassLoader extends URLClassLoader {
+	private void performEnhancement() {
+		try {
+			Project project = compileContext.getProject();
+			PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
+			if (psiDocumentManager.hasUncommitedDocuments()) {
+				psiDocumentManager.commitAllDocuments();
+			}
 
-    CompiledFilesAwareClassLoader(URL[] urls, ClassLoader parent) {
-      super(urls, parent);
-    }
+			doProcess();
+		} catch (Exception e) {
+			log.error("Error performing Ebean enhancement", e);
+			logError(e.getClass().getName() + ":" + e.getMessage());
+		}
+	}
 
-    @Override
-    public Class<?> loadClass(final String name) throws ClassNotFoundException {
+	private void doProcess() throws IOException {
 
-      try {
-        return super.loadClass(name);
-      } catch (ClassNotFoundException e) {
-        File f = compiledClasses.get(name);
-        if (f != null) {
-          try {
-            byte[] x = readFileBytes(f);
-            return defineClass(name, x, 0, x.length);
+		ClassLoader classLoader = buildClassLoader();
 
-          } catch (IOException ex) {
-            logError("Couldn't read file " + f);
-            throw new ClassNotFoundException("Could not load class "+name, ex);
-          }
-        }
-        throw new ClassNotFoundException("Could not find class "+name);
-      }
-    }
-  }
+		AgentManifest manifest = AgentManifest.read(classLoader, null);
 
-  private void performEnhancement() {
-    try {
-      Project project = compileContext.getProject();
-      PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
-      if (psiDocumentManager.hasUncommitedDocuments()) {
-        psiDocumentManager.commitAllDocuments();
-      }
+		int debugLevel = debugLevel();
 
-      doProcess();
-    } catch (Exception e) {
-      logError(e.getClass().getName() + ":" + e.getMessage());
-      // For debug
-//      for (StackTraceElement el : e.getStackTrace()) {
-//        logError(el.getClassName() + ":"+el.getMethodName() + ":"+el.getLineNumber());
-//      }
+		logInfo("Ebean 11+ enhancement started, packages - "
+				+ " entity: " + manifest.getEntityPackages()
+				+ " transaction: " + manifest.getTransactionalPackages()
+				+ " queryBean: " + manifest.getQuerybeanPackages()
+				+ " debug: " + debugLevel + " v:1192 profileLocation:" + manifest.isEnableProfileLocation());
 
-    }
-  }
+		EnhanceContext enhanceContext = new EnhanceContext(new BasicClassBytesReader(), "debug=" + debugLevel, manifest, metaCache);
+		enhanceContext.setThrowOnError(true);
 
-  private void doProcess() throws IOException {
+		Transformer transformer = new Transformer(enhanceContext);
+		if (debugLevel > 0) {
+			transformer.setLogout(this::logInfo);
+		}
 
-    AgentManifest manifest = new ManifestReader(compileContext).findManifests();
+		ProgressIndicator progressIndicator = compileContext.getProgressIndicator();
+		progressIndicator.setIndeterminate(true);
+		progressIndicator.setText("Ebean enhancement");
 
-    logInfo("Ebean 11+ enhancement started, packages - "
-        + " entity: " + manifest.getEntityPackages()
-        + " transaction: " + manifest.getTransactionalPackages()
-        + " queryBean: " + manifest.getQuerybeanPackages()
-        + " debug: " + debugLevel + " v:1191 files:" + compiledClasses.size()+ " profileLocation:"+ manifest.isEnableProfileLocation());
+		try {
+			for (Entry<String, File> entry : compiledClasses.entrySet()) {
+				String className = entry.getKey();
+				progressIndicator.setText2(className);
+				processEnhancement(classLoader, transformer, className, entry.getValue());
+			}
 
-    ClassLoader outDirAwareClassLoader = buildClassLoader();
+			metaCache.setFallback();
+			logInfo("Ebean enhancement done!  fbHits:" + metaCache.getFallbackHits());
+		} catch (Throwable e) {
+			logError("Exception trying to enhance. Please try Build -> Rebuild Project, error:" + e.getMessage());
+		}
+	}
 
-    IdeaClassBytesReader reader = new IdeaClassBytesReader(compileContext, compiledClasses);
-    IdeaClassLoader classLoader = new IdeaClassLoader(outDirAwareClassLoader, reader);
+	private int debugLevel() {
+		if (log.isTraceEnabled()) {
+			return 3;
+		} else if (log.isDebugEnabled()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 
-    EnhanceContext enhanceContext = new EnhanceContext(reader, "debug=" + debugLevel, manifest, metaCache);
-    enhanceContext.setThrowOnError(true);
+	private void processEnhancement(ClassLoader classLoader, Transformer transformer, String className, File file) {
+		try {
+			byte[] origBytes = readFileBytes(file);
+			className = className.replace('.', '/');
 
-    Transformer transformer = new Transformer(enhanceContext);
+			byte[] transformed = transformer.transform(classLoader, className, null, null, origBytes);
+			if (transformed != null) {
+				writeTransformed(file, transformed);
+				logInfo("enhanced: " + className);
+			}
 
-    transformer.setLogout(this::logInfo);
+		} catch (Exception e) {
+			logError("Exception trying to enhance:" + className + " Please try Build -> Rebuild Project, error:" + e.getMessage());
+		}
+	}
 
-    ProgressIndicator progressIndicator = compileContext.getProgressIndicator();
-    progressIndicator.setIndeterminate(true);
-    progressIndicator.setText("Ebean enhancement");
+	/**
+	 * Build the base classLoader. Ideally we have the "compile classpath" but we don't have that here.
+	 * (Agents use classLoader to determine common super classes etc).
+	 */
+	private ClassLoader buildClassLoader() throws MalformedURLException {
 
-    try {
-      for (Entry<String, File> entry : compiledClasses.entrySet()) {
-        String className = entry.getKey();
-        File file = entry.getValue();
+		Module[] modules = compileContext.getProjectCompileScope().getAffectedModules();
 
-        progressIndicator.setText2(className);
-        reader.setSearchScopeFromFile(file);
-        processEnhancement(classLoader, transformer, className, file);
-        reader.setSearchScopeFromFile(null);
-      }
+		List<URL> out = new ArrayList<>();
+		for (Module module : modules) {
+			addFileSystemUrl(out, compileContext.getModuleOutputDirectory(module));
+			addFileSystemUrl(out, compileContext.getModuleOutputDirectoryForTests(module));
+			addModulePaths(module, out);
+		}
 
-      metaCache.setFallback();
-      logInfo("Ebean enhancement done!  fbHits:" + metaCache.getFallbackHits() + " fbKeys:" + metaCache.fallbackKeys());
-    } catch (Throwable e) {
-      logError("Exception trying to enhance. Please try Build -> Rebuild Project, error:" + e.getMessage());
-    }
-  }
+		ClassLoader pluginClassLoader = this.getClass().getClassLoader();
+		URL[] urls = out.toArray(new URL[out.size()]);
+		if (log.isTraceEnabled()) {
+			log.trace("ClassPath: " + Arrays.toString(urls));
+		}
+		return new URLClassLoader(urls, pluginClassLoader);
+	}
 
-  private void processEnhancement(IdeaClassLoader classLoader, Transformer transformer, String className, File file) {
-    try {
-      byte[] origBytes = readFileBytes(file);
-      className = className.replace('.', '/');
+	private void addModulePaths(Module module, List<URL> out) {
 
-      byte[] transformed = transformer.transform(classLoader, className, null, null, origBytes);
-      if (transformed != null) {
-        writeTransformed(file, transformed);
-        logInfo("enhanced: " + className);
-      }
+		for (String pathEntry : OrderEnumerator.orderEntries(module).recursively().getPathsList().getPathList()) {
+			try {
+				out.add(new File(pathEntry).toURI().toURL());
+			} catch (MalformedURLException e) {
+				log.error("Error adding " + pathEntry + " to classpath", e);
+			}
+		}
+	}
 
-    } catch (Exception e) {
-      logError("Exception trying to enhance:" + className + " Please try Build -> Rebuild Project, error:" + e.getMessage());
-    }
-  }
+	private void logInfo(String msg) {
+		compileContext.addMessage(CompilerMessageCategory.INFORMATION, msg, null, -1, -1);
+	}
 
-  /**
-   * Build the base classLoader. Ideally we have the "compile classpath" but we don't have that here.
-   * (Agents use classLoader to determine common super classes etc).
-   */
-  private CompiledFilesAwareClassLoader buildClassLoader() throws MalformedURLException {
+	private void logError(String msg) {
+		compileContext.addMessage(CompilerMessageCategory.ERROR, msg, null, -1, -1);
+	}
 
-    Module[] modules = compileContext.getProjectCompileScope().getAffectedModules();
+	private void addFileSystemUrl(List<URL> out, VirtualFile outDir) throws MalformedURLException {
+		if (outDir != null) {
+			String url = outDir.getUrl();
+			if (outDir.isDirectory() && !url.endsWith("/")) {
+				url = url + "/";
+			}
+			if ('\\' == File.separatorChar) {
+				// take into account windows file system
+				url = url.replace("file://", "file:/");
+			}
+			out.add(new URL(url));
+		}
+	}
 
-    List<URL> out = new ArrayList<>();
-    for (Module module : modules) {
-      addFileSystemUrl(out, compileContext.getModuleOutputDirectory(module));
-      addFileSystemUrl(out, compileContext.getModuleOutputDirectoryForTests(module));
-    }
+	/**
+	 * Write the transformed class bytes to the appropriate target classes file.
+	 */
+	private void writeTransformed(File file, byte[] finalTransformed) throws IOException {
+		VirtualFile outputFile = VfsUtil.findFileByIoFile(file, true);
+		if (outputFile == null) {
+			compileContext.addMessage(CompilerMessageCategory.ERROR, "OutputFile not found for: " + file, null, -1, -1);
+		} else {
+			outputFile.setBinaryContent(finalTransformed);
+		}
+	}
 
-    ClassLoader pluginClassLoader = this.getClass().getClassLoader();
-    URL[] urls = out.toArray(new URL[out.size()]);
-    return new CompiledFilesAwareClassLoader(urls, pluginClassLoader);
-  }
-
-  private void logInfo(String msg) {
-    compileContext.addMessage(CompilerMessageCategory.INFORMATION, msg, null, -1, -1);
-  }
-
-  private void logError(String msg) {
-    compileContext.addMessage(CompilerMessageCategory.ERROR, msg, null, -1, -1);
-  }
-
-  private void addFileSystemUrl(List<URL> out, VirtualFile outDir) throws MalformedURLException {
-    if (outDir != null) {
-      String url = outDir.getUrl();
-      if (outDir.isDirectory() && !url.endsWith("/")) {
-        url = url + "/";
-      }
-      if ('\\' == File.separatorChar) {
-        // take into account windows file system
-        url = url.replace("file://", "file:/");
-      }
-      out.add(new URL(url));
-    }
-  }
-
-  /**
-   * Write the transformed class bytes to the appropriate target classes file.
-   */
-  private void writeTransformed(File file, byte[] finalTransformed) throws IOException {
-    VirtualFile outputFile = VfsUtil.findFileByIoFile(file, true);
-    if (outputFile == null) {
-      compileContext.addMessage(CompilerMessageCategory.ERROR, "OutputFile not found for: " + file, null, -1, -1);
-    } else {
-      outputFile.setBinaryContent(finalTransformed);
-    }
-  }
-
-  private byte[] readFileBytes(File file) throws IOException {
-    FileInputStream fis = new FileInputStream(file);
-    try {
-      return InputStreamTransform.readBytes(fis);
-    } finally {
-      try {
-        fis.close();
-      } catch (IOException e) {
-        compileContext.addMessage(CompilerMessageCategory.ERROR, "Error closing FileInputStream:" + e.getMessage(), null, -1, -1);
-      }
-    }
-  }
+	private byte[] readFileBytes(File file) throws IOException {
+		FileInputStream fis = new FileInputStream(file);
+		try {
+			return InputStreamTransform.readBytes(fis);
+		} finally {
+			try {
+				fis.close();
+			} catch (IOException e) {
+				compileContext.addMessage(CompilerMessageCategory.ERROR, "Error closing FileInputStream:" + e.getMessage(), null, -1, -1);
+			}
+		}
+	}
 }

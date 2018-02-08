@@ -36,7 +36,9 @@ import org.jetbrains.annotations.Nullable;
     @Storage(id = "ebeanEnhancement", file = StoragePathMacros.WORKSPACE_FILE)
 })
 public class EbeanActionComponent implements ProjectComponent, PersistentStateComponent<EbeanActionComponent.EbeanEnhancementState> {
+
     private final Project project;
+
     private final CompiledFileCollector compiledFileCollector;
 
     private final EbeanEnhancementState ebeanEnhancementState;

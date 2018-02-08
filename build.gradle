@@ -10,7 +10,6 @@ repositories {
 
 dependencies {
     compile "io.ebean:ebean-agent:11.9.1"
-    //testCompile 'junit:junit:4.11'
 }
 
 task wrapper(type: Wrapper) {
