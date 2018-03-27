@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.avaje.ebean11.enhancer</id>
   <name>Ebean 11.x Enhancement</name>
-  <version>11.9.2</version>
+  <version>11.11.1</version>
   <vendor url="http://ebean-orm.github.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave, Victor Nikiforov</vendor>
   <depends>com.intellij.modules.java</depends>
 
@@ -10,6 +10,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>11.11.1</b> Bump to agent with Java 10 support and bug fix for #80<br>
       <b>11.9.2</b> Change plugin classpath determination to use OrderEnumerator<br>
       <b>11.9.1</b> Update to 11.9.1 agent with profile location support and partial compile improvement<br>
       <b>11.5.4</b> No change, republish to plugin repo<br>

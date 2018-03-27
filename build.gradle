@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    compile "io.ebean:ebean-agent:11.9.1"
+    compile "io.ebean:ebean-agent:11.11.1"
 }
 
 task wrapper(type: Wrapper) {
