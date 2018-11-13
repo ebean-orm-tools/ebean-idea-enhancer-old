@@ -134,6 +134,7 @@ class EbeanEnhancementTask {
 			metaCache.setFallback();
 			logInfo("Ebean enhancement done!  fbHits:" + metaCache.getFallbackHits());
 		} catch (Throwable e) {
+			log.error("Error processing enhancement", e);
 			logError("Exception trying to enhance. Please try Build -> Rebuild Project, error:" + e.getMessage());
 		}
 	}
@@ -160,7 +161,8 @@ class EbeanEnhancementTask {
 			}
 
 		} catch (Exception e) {
-			logError("Exception trying to enhance:" + className + " Please try Build -> Rebuild Project, error:" + e.getMessage());
+      log.error("Exception trying to enhance:" + className, e);
+      logError("Exception trying to enhance:" + className + " Please try Build -> Rebuild Project, error:" + e.getMessage());
 		}
 	}
 
