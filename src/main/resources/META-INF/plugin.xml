@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.avaje.ebean11.enhancer</id>
   <name>Ebean 11 Enhancement</name>
-  <version>11.25.1</version>
+  <version>11.27.1</version>
   <vendor url="http://ebean.io/" >Yevgeny Krasik, Mario Ivankovits, Rob Bygrave, Victor Nikiforov</vendor>
   <depends>com.intellij.modules.java</depends>
 
@@ -10,6 +10,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+      <b>11.27.1</b> Bump to agent 11.27.1 with fix for file descriptor leak<br>
       <b>11.25.1</b> Bump to agent with Java 9+ fix for final fields<br>
       <b>11.24.1</b> Bump to agent with Java 11 support<br>
       <b>11.11.1</b> Bump to agent with Java 10 support and bug fix for #80<br>

@@ -17,7 +17,6 @@ class BasicClassBytesReader implements ClassBytesReader {
 
 		InputStream is = null;
 		try {
-
 			String resource = className.replace('.', '/') + ".class";
 
 			// read the class bytes, and define the class
@@ -26,7 +25,7 @@ class BasicClassBytesReader implements ClassBytesReader {
 				return null;
 			}
 
-			is = url.openStream();
+			is = UrlHelper.openNoCache(url);
 			return InputStreamTransform.readBytes(is);
 
 		} catch (IOException e) {
