@@ -1,3 +1,8 @@
+# Replaced by javaagent based plugin
+
+This plugin is now deprecated and effectively replaced by the new javaagent based plugin.
+
+
 # ebean-idea-enhancer
 IntelliJ IDEA plugin to perform EbeanORM Enhancement
 
